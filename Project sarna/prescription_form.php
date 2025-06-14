@@ -16,6 +16,15 @@
     .footer-right { text-align: right; margin-top: 30px; }
     .footer-right p { margin: 4px 0; }
     .footer-e{ margin-top: 30px; }
+      @import url('https://fonts.googleapis.com/css2?family=Khmer&display=swap');
+  @font-face {
+    font-family: 'Khmer OS Muol Light';
+    src: url('fonts/KhmerOSmuollight.ttf') format('truetype'); /* adjust path as needed */
+  }
+
+  .khmer-font {
+    font-family: 'Khmer OS Muol Light', 'Khmer OS Muol', 'Khmer', sans-serif;
+  }
   </style>
 </head>
 <body class="bg-gray-50">
@@ -37,9 +46,9 @@
         <datalist id="patientNames"></datalist>
         <select class="w-40 p-2 border rounded" id="gender" required>
           <option value="">ជ្រើសរើសភេទ</option>
-          <option value="Male">ភេទប្រុស</option>
-          <option value="Female">ភេទស្រី</option>
-          <option value="Other">ផ្សេងៗ</option>
+          <option value="ប្រុស">ប្រុស</option>
+          <option value="ស្រី">ស្រី</option>
+          <option value="ផ្សេងៗ">ផ្សេងៗ</option>
         </select>
         <div>
           <label for="age">អាយុ</label>
@@ -57,23 +66,51 @@
 
     <form id="medicineForm" class="mb-6 hidden">
       <h2 class="text-xl font-semibold mb-4">ព័ត៌មានថ្នាំពេទ្យ</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <input list="medicineList" type="text" id="medicineName" placeholder="Medicine Name" required class="p-2 border rounded" />
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="flex flex-col">
+        <p class="font-medium">ឈ្មោះថ្នាំ:</p>
+        <input list="medicineList" type="text" id="medicineName" required class="p-2 border rounded w-full" />
         <datalist id="medicineList"></datalist>
-        <input type="text" id="morning" placeholder="Morning" class="p-2 border rounded" />
-        <input type="text" id="afternoon" placeholder="Afternoon" class="p-2 border rounded" />
-        <input type="text" id="evening" placeholder="Evening" class="p-2 border rounded" />
-        <input type="text" id="night" placeholder="Night" class="p-2 border rounded" />
-        <input type="text" id="quantity" placeholder="Quantity" class="p-2 border rounded" />
-        <input type="text" id="instructions" placeholder="Instructions" class="p-2 border rounded col-span-full" />
       </div>
+
+      <div class="flex flex-col">
+        <p class="font-medium">ព្រឹក:</p>
+        <input type="text" id="morning" class="p-2 border rounded" />
+      </div>
+
+      <div class="flex flex-col">
+        <p class="font-medium">រសៀល:</p>
+        <input type="text" id="afternoon" class="p-2 border rounded" />
+      </div>
+
+      <div class="flex flex-col">
+        <p class="font-medium">ល្ងាច:</p>
+        <input type="text" id="evening" class="p-2 border rounded" />
+      </div>
+
+      <div class="flex flex-col">
+        <p class="font-medium">យប់:</p>
+        <input type="text" id="night" class="p-2 border rounded" />
+      </div>
+
+      <div class="flex flex-col">
+        <p class="font-medium">ចំនួន:</p>
+        <input type="text" id="quantity" class="p-2 border rounded" />
+      </div>
+
+      <div class="flex flex-col">
+        <p class="font-medium">សេចក្ដីណែនាំ:</p>
+        <input type="text" id="instructions" class="p-2 border rounded" />
+      </div>
+    </div>
+
       <button type="submit" class="mt-4 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700">
         <span id="submitLabel">បន្ថែមថ្នាំ</span>
       </button>
     </form>
 
     <div>
-      <h1 class="text-2xl font-bold mb-6 text-center">វេជ្ជបញ្ជា</h1>
+      <h1 class="text-2xl mb-6 text-center khmer-font">វេជ្ជបញ្ជា</h1>
       <div class="overflow-x-auto">
         <table class="w-full table-auto border border-gray-300 text-center">
           <thead class="bg-gray-100">
