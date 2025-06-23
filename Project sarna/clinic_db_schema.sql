@@ -55,3 +55,16 @@ INSERT INTO medicine_prices (name, price) VALUES
 ('Ibuprofen', 3000),
 ('Vitamin C', 1500);
 
+CREATE TABLE patients (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  patient_name VARCHAR(100) NOT NULL,
+  gender VARCHAR(10),
+  age INT,
+  dob DATE,
+  contact VARCHAR(20),
+  email VARCHAR(100),
+  address TEXT,
+  blood_group VARCHAR(10),
+  medical_history TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

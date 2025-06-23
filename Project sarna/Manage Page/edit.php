@@ -54,56 +54,174 @@ $prescription = $conn->query("SELECT * FROM prescriptions WHERE id = $prescripti
 $invoice = $conn->query("SELECT * FROM invoices WHERE prescription_id = $prescription_id")->fetch_assoc();
 $medicines = $conn->query("SELECT * FROM medicines WHERE prescription_id = $prescription_id");
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Edit Prescription</title>
-    <style>
-        label { display: block; margin-top: 10px; }
-        input, textarea { width: 100%; padding: 5px; }
-        .med-block { border: 1px solid #ddd; padding: 10px; margin: 10px 0; }
-        .btn { padding: 10px 15px; background: #007bff; color: white; border: none; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Edit Prescription</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --primary: #3498db;
+      --secondary: #f8f9fa;
+      --danger: #e74c3c;
+      --text: #2c3e50;
+      --bg: #f0f4f8;
+      --card: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: var(--card);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 25px;
+    }
+
+    form label {
+      display: block;
+      margin: 12px 0 5px;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: var(--secondary);
+      font-size: 15px;
+      transition: border 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    .med-block {
+      padding: 15px;
+      border: 1px solid #dce3ea;
+      border-radius: 8px;
+      background-color: #fdfdfd;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    .btn {
+      padding: 12px 25px;
+      font-size: 16px;
+      background-color: var(--primary);
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      margin: 30px auto 0;
+    }
+
+    .btn:hover {
+      background-color: #2980b9;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+
+      input, textarea, select {
+        font-size: 14px;
+      }
+
+      h2, h3 {
+        font-size: 22px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<h2>Edit Prescription</h2>
-<form method="POST">
-    <label>Patient Name: <input type="text" name="patient_name" value="<?= $prescription['patient_name'] ?>"></label>
-    <label>Age: <input type="number" name="age" value="<?= $prescription['age'] ?>"></label>
-    <label>Gender: 
-        <select name="gender">
-            <option value="Male" <?= $prescription['gender'] == 'Male' ? 'selected' : '' ?>>Male</option>
-            <option value="Female" <?= $prescription['gender'] == 'Female' ? 'selected' : '' ?>>Female</option>
-        </select>
-    </label>
-    <label>Diagnosis: <textarea name="diagnosis"><?= $prescription['diagnosis'] ?></textarea></label>
-    <label>Doctor Name: <input type="text" name="doctor_name" value="<?= $prescription['doctor_name'] ?>"></label>
-    <label>Date: <input type="date" name="date" value="<?= $prescription['date'] ?>"></label>
+<div class="container">
+  <h2>Edit Prescription</h2>
+  <form method="POST">
+    <label>Patient Name:</label>
+    <input type="text" name="patient_name" value="<?= $prescription['patient_name'] ?>">
+
+    <label>Age:</label>
+    <input type="number" name="age" value="<?= $prescription['age'] ?>">
+
+    <label>Gender:</label>
+    <select name="gender">
+      <option value="Male" <?= $prescription['gender'] == 'Male' ? 'selected' : '' ?>>Male</option>
+      <option value="Female" <?= $prescription['gender'] == 'Female' ? 'selected' : '' ?>>Female</option>
+    </select>
+
+    <label>Diagnosis:</label>
+    <textarea name="diagnosis"><?= $prescription['diagnosis'] ?></textarea>
+
+    <label>Doctor Name:</label>
+    <input type="text" name="doctor_name" value="<?= $prescription['doctor_name'] ?>">
+
+    <label>Date:</label>
+    <input type="date" name="date" value="<?= $prescription['date'] ?>">
 
     <h3>Medicines</h3>
     <div id="medicines">
-    <?php while ($m = $medicines->fetch_assoc()): ?>
+      <?php while ($m = $medicines->fetch_assoc()): ?>
         <div class="med-block">
-            <label>Name: <input type="text" name="med_name[]" value="<?= $m['name'] ?>"></label>
-            <label>Morning: <input type="text" name="morning[]" value="<?= $m['morning'] ?>"></label>
-            <label>Afternoon: <input type="text" name="afternoon[]" value="<?= $m['afternoon'] ?>"></label>
-            <label>Evening: <input type="text" name="evening[]" value="<?= $m['evening'] ?>"></label>
-            <label>Night: <input type="text" name="night[]" value="<?= $m['night'] ?>"></label>
-            <label>Quantity: <input type="number" name="quantity[]" value="<?= $m['quantity'] ?>"></label>
-            <label>Instructions: <textarea name="instructions[]"><?= $m['instructions'] ?></textarea></label>
+          <label>Medicine Name:</label>
+          <input type="text" name="med_name[]" value="<?= $m['name'] ?>">
+
+          <label>Morning:</label>
+          <input type="text" name="morning[]" value="<?= $m['morning'] ?>">
+
+          <label>Afternoon:</label>
+          <input type="text" name="afternoon[]" value="<?= $m['afternoon'] ?>">
+
+          <label>Evening:</label>
+          <input type="text" name="evening[]" value="<?= $m['evening'] ?>">
+
+          <label>Night:</label>
+          <input type="text" name="night[]" value="<?= $m['night'] ?>">
+
+          <label>Quantity:</label>
+          <input type="number" name="quantity[]" value="<?= $m['quantity'] ?>">
+
+          <label>Instructions:</label>
+          <textarea name="instructions[]"><?= $m['instructions'] ?></textarea>
         </div>
-    <?php endwhile; ?>
+      <?php endwhile; ?>
     </div>
 
     <h3>Invoice</h3>
-    <label>Received By: <input type="text" name="receive_by" value="<?= $invoice['receive_by'] ?>"></label>
-    <label>Total Amount: <input type="number" name="total_amount" value="<?= $invoice['total_amount'] ?>"></label>
+    <label>Received By:</label>
+    <input type="text" name="receive_by" value="<?= $invoice['receive_by'] ?>">
 
-    <br><br>
-    <button class="btn" type="submit">Update</button>
-</form>
+    <label>Total Amount:</label>
+    <input type="number" name="total_amount" value="<?= $invoice['total_amount'] ?>">
+
+    <button class="btn" type="submit">Update Prescription</button>
+  </form>
+</div>
 
 </body>
 </html>

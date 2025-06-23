@@ -102,12 +102,14 @@ if (!isset($_SESSION['username'])) {
       <nav class="col-md-2 sidebar p-3">
         <div>
           <h4 class="text-center">SLM1</h4>
-          <a href="admin/dashboard.php"><i class="fas fa-database"></i> Management DB</a>
           <a href="#"><i class="fas fa-chart-pie"></i> Dashboard</a>
+          <a href="admin/dashboard.php"><i class="fas fa-database"></i> Management DB</a>
+          <a href="Manage Page/index.php"><i class="fas fa-chart-pie"></i>Admin page</a>
           <a href="prescription_form.php"><i class="fas fa-prescription-bottle-alt"></i> Prescription</a>
-          <a href="#"><i class="fas fa-users"></i> NSSF Data Entry</a>
-          <a href="#"><i class="fas fa-camera-retro"></i> Scan Document</a>
-          <a href="#"><i class="fas fa-chart-line"></i> Reports</a>
+          <a href="print_prescription.php"><i class="fas fa-prescription-bottle-alt"></i> Prescription and Invoice</a>         
+          <a href="#"><i class="fas fa-users"></i> Input patient info</a>
+          <a href="#"><i class="fas fa-camera-retro"></i>Input info doctor</a>
+          <a href="report.php"><i class="fas fa-chart-line"></i> Reports</a>
         </div>
         <div class="logout-link">
           <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>

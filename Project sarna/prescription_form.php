@@ -34,9 +34,9 @@
 
   <div class="p-7 max-w-4xl mx-auto bg-white shadow-md rounded-lg" id="app">
     <header class="header">
-      <img src="pic/left.png" alt="Left Logo"/>
+      <img src="pic/left.jpg" alt="Left Logo"/>
       <div class="clinic-name">មន្ទីរពហុព្យាបាល​ សុខ លាភ មេត្រី<br/>SOK LEAP METREY POLYCLINIC</div>
-      <img src="pic/right.png" alt="Right Logo"/>
+      <img src="pic/right.jpg" alt="Right Logo"/>
     </header>
 
     <form id="patientForm" class="mb-6">
