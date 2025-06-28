@@ -11,101 +11,79 @@ $reports = [
     <meta charset="UTF-8"/>
     <title>Reports</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Optional: Font Awesome CDN for icons -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="bg-gray-100 font-sans">
-
 <div class="flex min-h-screen">
-    <!-- Sidebar on the left -->
+    <!-- Sidebar -->
     <?php include 'sidebar.php'; ?>
 
-    <!-- Main content on the right -->
-    <main class="flex-1 p-6">
+    <!-- Main Content -->
+    <main class="flex-1 p-6 bg-gray-100">
         <h2 class="text-2xl font-bold mb-6">Dashboard</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-            <div class="bg-white p-6 rounded shadow text-center">
-                <i class="fas fa-notes-medical text-blue-600 text-3xl mb-2"></i>
-                <h5 class="text-lg font-semibold mb-1">Prescription</h5>
+
+        <!-- Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+                <h5 class="text-blue-600 font-semibold mb-2"><i class="fas fa-notes-medical"></i> Prescription</h5>
                 <p class="text-2xl font-bold text-blue-600">45</p>
             </div>
-
-            <div class="bg-white p-6 rounded shadow text-center">
-                <i class="fas fa-file-invoice-dollar text-green-600 text-3xl mb-2"></i>
-                <h5 class="text-lg font-semibold mb-1">Invoice</h5>
+            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+                <h5 class="text-green-600 font-semibold mb-2"><i class="fas fa-file-invoice-dollar"></i> Invoice</h5>
                 <p class="text-2xl font-bold text-green-600">120</p>
             </div>
-
-            <div class="bg-white p-6 rounded shadow text-center">
-                <i class="fas fa-user-edit text-yellow-500 text-3xl mb-2"></i>
-                <h5 class="text-lg font-semibold mb-1">NSSF Entry</h5>
+            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+                <h5 class="text-yellow-500 font-semibold mb-2"><i class="fas fa-user-edit"></i> NSF Entry</h5>
                 <p class="text-2xl font-bold text-yellow-500">30</p>
             </div>
-
-            <div class="bg-white p-6 rounded shadow text-center">
-                <i class="fas fa-camera text-red-600 text-3xl mb-2"></i>
-                <h5 class="text-lg font-semibold mb-1">Scan Doc</h5>
-                <p class="text-2xl font-bold text-red-600">30</p>
+            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+                <h5 class="text-red-500 font-semibold mb-2"><i class="fas fa-camera"></i> Scan Doc</h5>
+                <p class="text-2xl font-bold text-red-500">30</p>
             </div>
-
-            <div class="bg-white p-6 rounded shadow text-center">
-                <i class="fas fa-chart-bar text-cyan-600 text-3xl mb-2"></i>
-                <h5 class="text-lg font-semibold mb-1">Reports</h5>
+            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center col-span-full sm:col-span-2 lg:col-span-1">
+                <h5 class="text-cyan-600 font-semibold mb-2"><i class="fas fa-chart-bar"></i> Reports</h5>
                 <p class="text-2xl font-bold text-cyan-600">15</p>
             </div>
         </div>
 
-        <h3 class="text-xl font-semibold mt-4 mb-6">Recent Reports</h3>
-
         <!-- Search Form -->
+        <h3 class="text-xl font-semibold mb-4">Recent Reports</h3>
         <form method="GET" class="mb-6 flex flex-wrap gap-4 items-end">
             <div>
                 <label for="searchId" class="block text-sm font-medium text-gray-700 mb-1">Search by ID</label>
-                <input
-                        type="text"
-                        id="searchId"
-                        name="searchId"
-                        placeholder="Enter ID"
-                        class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value="<?php echo isset($_GET['searchId']) ? htmlspecialchars($_GET['searchId']) : '' ?>"
-                />
+                <input type="text" id="searchId" name="searchId" placeholder="Enter ID"
+                       class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       value="<?php echo isset($_GET['searchId']) ? htmlspecialchars($_GET['searchId']) : '' ?>"/>
             </div>
             <div>
                 <label for="searchDate" class="block text-sm font-medium text-gray-700 mb-1">Search by Date</label>
-                <input
-                        type="date"
-                        id="searchDate"
-                        name="searchDate"
-                        class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value="<?php echo isset($_GET['searchDate']) ? htmlspecialchars($_GET['searchDate']) : '' ?>"
-                />
+                <input type="date" id="searchDate" name="searchDate"
+                       class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       value="<?php echo isset($_GET['searchDate']) ? htmlspecialchars($_GET['searchDate']) : '' ?>"/>
             </div>
             <div>
-                <button
-                        type="submit"
-                        class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition"
-                >
+                <button type="submit"
+                        class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 transition">
                     Search
                 </button>
             </div>
         </form>
 
         <!-- Table -->
-        <div class="overflow-x-auto mb-4">
-            <table class="min-w-full bg-white border border-gray-300 text-sm text-gray-800">
+        <div class="overflow-x-auto bg-white rounded shadow mb-6">
+            <table class="min-w-full text-sm text-gray-800 border border-gray-200">
                 <thead class="bg-gray-800 text-white">
                 <tr>
-                    <th class="px-4 py-2">NO</th>
-                    <th class="px-4 py-2">Name</th>
-                    <th class="px-4 py-2">Age</th>
-                    <th class="px-4 py-2">Diagnosis</th>
-                    <th class="px-4 py-2">Date</th>
+                    <th class="px-4 py-2 text-left">NO</th>
+                    <th class="px-4 py-2 text-left">Name</th>
+                    <th class="px-4 py-2 text-left">Age</th>
+                    <th class="px-4 py-2 text-left">Diagnosis</th>
+                    <th class="px-4 py-2 text-left">Date</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
                 $count = 0;
-                // Optional: filter the data if search params are set
                 $filtered = array_filter($reports, function ($r) {
                     $matchId = true;
                     $matchDate = true;
@@ -130,7 +108,7 @@ $reports = [
                 }
 
                 if ($count === 0) {
-                    echo "<tr><td colspan='5' class='px-4 py-2 text-center'>No reports found.</td></tr>";
+                    echo "<tr><td colspan='5' class='px-4 py-2 text-center text-gray-500'>No reports found.</td></tr>";
                 }
                 ?>
                 </tbody>
@@ -140,6 +118,5 @@ $reports = [
         <p class="font-semibold">Total reports: <?php echo $count; ?></p>
     </main>
 </div>
-
 </body>
 </html>

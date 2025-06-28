@@ -68,3 +68,5 @@ CREATE TABLE patients (
   medical_history TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+select * from prescriptions;
+ALTER TABLE medicines ADD COLUMN unit_price DECIMAL(10,2) NOT NULL DEFAULT 0;
