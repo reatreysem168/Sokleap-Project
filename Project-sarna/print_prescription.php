@@ -102,12 +102,15 @@ $formattedDate = date('d F Y');
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 148mm;
-                height: 210mm;
+                width: 100%;
+                height: 100%;
             }
             #printButton {
                 display: none;
             }
+        }
+        .page-break {
+            page-break-after: always;
         }
     </style>
 </head>
@@ -122,61 +125,78 @@ $formattedDate = date('d F Y');
 
 <!-- Invoice & Prescription Content -->
 <div id="invoice" class="max-w-[148mm] min-h-[210mm] bg-white border border-gray-400 p-6 mx-auto relative shadow-md rounded">
-
-    <!-- Header -->
-    <div class="flex justify-between items-center mb-6">
-        <img src="pic/left.png" alt="Logo Left" class="h-20 w-auto" />
-        <div class="text-center">
-            <h1 class="text-xl font-bold text-gray-700">មន្ទីរពេទ្យពហុព្យាបាល សុខលាភមេត្រី</h1>
-            <p class="text-lg font-bold text-gray-500">វេជ្ជបញ្ជា និង វិក្កយបត្រ</p>
+    <!-- Prescription Page -->
+    <div class="page-break">
+        <div class="flex justify-between items-center mb-6">
+            <img src="pic/left.png" alt="Logo Left" class="h-20 w-auto" />
+            <div class="text-center">
+                <h1 class="text-xl font-bold text-gray-700">មន្ទីរពេទ្យពហុព្យាបាល សុខលាភមេត្រី</h1>
+                <p class="text-lg font-bold text-gray-500">វេជ្ជបញ្ជា</p>
+            </div>
+            <img src="pic/right.png" alt="Logo Right" class="h-20 w-auto" />
         </div>
-        <img src="pic/right.png" alt="Logo Right" class="h-20 w-auto" />
+
+        <?php if ($selectedPrescription): ?>
+            <div class="grid grid-cols-2 gap-4 mb-6 text-gray-700 text-sm border-b pb-4">
+                <div><span class="font-bold">ឈ្មោះ៖</span> <?= htmlspecialchars($selectedPrescription['patientName']) ?></div>
+                <div class="flex space-x-6">
+                    <div><span class="font-bold">ភេទ៖</span> <?= htmlspecialchars($selectedPrescription['gender']) ?></div>
+                    <div><span class="font-bold">អាយុ៖</span> <?= (int)$selectedPrescription['age'] ?> ឆ្នាំ</div>
+                </div>
+                <div class="col-span-2">
+                    <span class="font-bold">រោគវិនិច្ឆ័យ៖</span> <?= htmlspecialchars($selectedPrescription['diagnosis']) ?>
+                </div>
+            </div>
+
+            <table class="w-full text-sm text-left text-gray-700 border-collapse mb-6">
+                <thead>
+                <tr class="bg-gray-100 text-gray-700">
+                    <th class="border px-4 py-2 text-center">ល.រ</th>
+                    <th class="border px-4 py-2">ឈ្មោះថ្នាំ</th>
+                    <th class="border px-4 py-2 text-center">ព្រឹក</th>
+                    <th class="border px-4 py-2 text-center">ថ្ងៃត្រង់</th>
+                    <th class="border px-4 py-2 text-center">ល្ងាច</th>
+                    <th class="border px-4 py-2 text-center">យប់</th>
+                    <th class="border px-4 py-2 text-center">ចំនួន</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($selectedPrescription['medicines'] as $index => $med): ?>
+                    <tr>
+                        <td class="border px-4 py-2 text-center"><?= $index + 1 ?></td>
+                        <td class="border px-4 py-2"><?= htmlspecialchars($med['name']) ?></td>
+                        <td class="border px-4 py-2 text-center"><?= $med['morning'] ?></td>
+                        <td class="border px-4 py-2 text-center"><?= $med['afternoon'] ?></td>
+                        <td class="border px-4 py-2 text-center"><?= $med['evening'] ?></td>
+                        <td class="border px-4 py-2 text-center"><?= $med['night'] ?></td>
+                        <td class="border px-4 py-2 text-center"><?= $med['quantity'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+
+            <div class="text-right mt-4">
+                <p><strong>វេជ្ជបណ្ឌិត៖</strong> <?= htmlspecialchars($selectedPrescription['doctor']) ?></p>
+            </div>
+        <?php endif; ?>
+
+        <div class="text-sm text-gray-600 text-center w-full px-4 mt-12 print:mt-24">
+            <p>អាស័យដ្ឋានៈ ផ្លូវ ១៨៨ ផ្ទះលេខ ៨៦០, សង្កាត់ បឹងព្រលឹត, ខណ្ឌ៧មករា, ភ្នំពេញ</p>
+            <p>លេខទូរស័ព្ទ៖ ០១២-៣៤៥៦៧៨៩ / ០៩៨-៧៦៥៤៣២</p>
+        </div>
     </div>
 
-    <?php if ($selectedPrescription): ?>
-        <!-- Patient Info -->
-        <div class="grid grid-cols-2 gap-4 mb-6 text-gray-700 text-sm border-b pb-4">
-            <div><span class="font-bold">ឈ្មោះ៖</span> <?= htmlspecialchars($selectedPrescription['patientName']) ?></div>
-            <div class="flex space-x-6">
-                <div><span class="font-bold">ភេទ៖</span> <?= htmlspecialchars($selectedPrescription['gender']) ?></div>
-                <div><span class="font-bold">អាយុ៖</span> <?= (int)$selectedPrescription['age'] ?> ឆ្នាំ</div>
+    <!-- Invoice Page -->
+    <div>
+        <div class="flex justify-between items-center mb-6">
+            <img src="pic/left.png" alt="Logo Left" class="h-20 w-auto" />
+            <div class="text-center">
+                <h1 class="text-xl font-bold text-gray-700">មន្ទីរពេទ្យពហុព្យាបាល សុខលាភមេត្រី</h1>
+                <p class="text-lg font-bold text-gray-500">វិក្កយបត្រ</p>
             </div>
-            <div class="col-span-2">
-                <span class="font-bold">រោគវិនិច្ឆ័យ៖</span> <?= htmlspecialchars($selectedPrescription['diagnosis']) ?>
-            </div>
+            <img src="pic/right.png" alt="Logo Right" class="h-20 w-auto" />
         </div>
 
-        <!-- Prescription Table -->
-        <h2 class="text-md font-bold text-gray-700 mb-2">វេជ្ជបញ្ជា</h2>
-        <table class="w-full text-sm text-left text-gray-700 border-collapse mb-6">
-            <thead>
-            <tr class="bg-gray-100 text-gray-700">
-                <th class="border px-4 py-2 text-center">ល.រ</th>
-                <th class="border px-4 py-2">ឈ្មោះថ្នាំ</th>
-                <th class="border px-4 py-2 text-center">ព្រឹក</th>
-                <th class="border px-4 py-2 text-center">ថ្ងៃត្រង់</th>
-                <th class="border px-4 py-2 text-center">ល្ងាច</th>
-                <th class="border px-4 py-2 text-center">យប់</th>
-                <th class="border px-4 py-2 text-center">ចំនួន</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($selectedPrescription['medicines'] as $index => $med): ?>
-                <tr>
-                    <td class="border px-4 py-2 text-center"><?= $index + 1 ?></td>
-                    <td class="border px-4 py-2"><?= htmlspecialchars($med['name']) ?></td>
-                    <td class="border px-4 py-2 text-center"><?= $med['morning'] ?></td>
-                    <td class="border px-4 py-2 text-center"><?= $med['afternoon'] ?></td>
-                    <td class="border px-4 py-2 text-center"><?= $med['evening'] ?></td>
-                    <td class="border px-4 py-2 text-center"><?= $med['night'] ?></td>
-                    <td class="border px-4 py-2 text-center"><?= $med['quantity'] ?></td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-
-        <!-- Invoice Table -->
-        <h2 class="text-md font-bold text-gray-700 mb-2">វិក្កយបត្រ</h2>
         <table class="w-full text-sm text-left text-gray-700 border-collapse mb-6">
             <thead>
             <tr class="bg-gray-200 text-gray-700">
@@ -205,14 +225,12 @@ $formattedDate = date('d F Y');
             </tbody>
         </table>
 
-        <!-- Grand Total -->
         <div class="flex justify-end mb-6">
             <div class="w-1/2 bg-gray-200 p-2 font-bold text-right text-gray-700">
                 សរុប: <?= number_format($grandTotal) ?> រៀល
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="text-sm text-gray-700 text-right mb-4">
             <p>ថ្ងៃខែឆ្នាំ៖ <?= date('d F Y') ?></p>
             <p>អ្នកទទួលប្រាក់</p>
@@ -220,14 +238,10 @@ $formattedDate = date('d F Y');
             <p>Seng Chhunyeang</p>
         </div>
 
-    <?php else: ?>
-        <div class="text-center text-red-500 font-semibold text-lg">មិនមានទិន្នន័យលម្អិតសម្រាប់ ID នេះទេ។</div>
-    <?php endif; ?>
-
-    <!-- Address Footer -->
-    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-sm text-gray-600 text-center w-full px-4">
-        <p>អាស័យដ្ឋានៈ ផ្លូវ ១៨៨ ផ្ទះលេខ ៨៦០, សង្កាត់ បឹងព្រលឹត, ខណ្ឌ៧មករា, ភ្នំពេញ</p>
-        <p>លេខទូរស័ព្ទ៖ ០១២-៣៤៥៦៧៨៩ / ០៩៨-៧៦៥៤៣២</p>
+        <div class="text-sm text-gray-600 text-center w-full px-4 mt-12 print:mt-24">
+            <p>អាស័យដ្ឋានៈ ផ្លូវ ១៨៨ ផ្ទះលេខ ៨៦០, សង្កាត់ បឹងព្រលឹត, ខណ្ឌ៧មករា, ភ្នំពេញ</p>
+            <p>លេខទូរស័ព្ទ៖ ០១២-៣៤៥៦៧៨៩ / ០៩៨-៧៦៥៤៣២</p>
+        </div>
     </div>
 </div>
 
