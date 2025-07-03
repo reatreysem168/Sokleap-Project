@@ -30,7 +30,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['medicines'])) {
         $stmt = $pdo->prepare("INSERT INTO medicines (prescription_id, name, morning, afternoon, evening, night, quantity, instructions, unit_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         foreach ($medicines as $med) {
-            $unitPrice = isset($med['unit_price']) && is_numeric($med['unit_price']) ? (float)$med['unit_price'] : 0;
+            // Get unit price from medicine_prices table if available
+            $unitPrice = 0;
+            if (!empty($med['name'])) {
+                $priceStmt = $pdo->prepare("SELECT price FROM medicine_prices WHERE name = ?");
+                $priceStmt->execute([$med['name']]);
+                $priceData = $priceStmt->fetch();
+                $unitPrice = $priceData ? $priceData['price'] : 0;
+            }
+
+            // Override with manual price if provided
+            if (isset($med['unit_price']) && is_numeric($med['unit_price'])) {
+                $unitPrice = (float)$med['unit_price'];
+            }
 
             $stmt->execute([
                 $prescriptionId,
@@ -44,6 +56,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['medicines'])) {
                 $unitPrice
             ]);
         }
+
+        // Also save to invoices table
+        $grandTotal = 0;
+        foreach ($medicines as $med) {
+            $quantity = (int)($med['quantity'] ?? 0);
+            $unitPrice = isset($med['unit_price']) && is_numeric($med['unit_price']) ? (float)$med['unit_price'] : 0;
+            $grandTotal += $quantity * $unitPrice;
+        }
+
+        $stmt = $pdo->prepare("INSERT INTO invoices (prescription_id, receive_by, total_amount) VALUES (?, ?, ?)");
+        $stmt->execute([
+            $prescriptionId,
+            $_POST['doctorName'] ?? 'Unknown',
+            $grandTotal
+        ]);
 
         $pdo->commit();
     } catch (Exception $e) {
@@ -78,6 +105,11 @@ if ($lastPrescription) {
         'date' => $prescription['date'],
         'medicines' => $medicines
     ];
+
+    // Calculate grand total
+    foreach ($medicines as $med) {
+        $grandTotal += (float)$med['unit_price'] * (int)$med['quantity'];
+    }
 }
 
 date_default_timezone_set('Asia/Phnom_Penh');
@@ -125,7 +157,7 @@ $formattedDate = date('d F Y');
 
 <!-- Invoice & Prescription Content -->
 <div id="invoice" class="max-w-[148mm] min-h-[210mm] bg-white border border-gray-400 p-6 mx-auto relative shadow-md rounded">
-    <!-- Prescription Page -->
+    <!-- Prescription Page (NO PRICES) -->
     <div class="page-break">
         <div class="flex justify-between items-center mb-6">
             <img src="pic/left.png" alt="Logo Left" class="h-20 w-auto" />
@@ -138,13 +170,13 @@ $formattedDate = date('d F Y');
 
         <?php if ($selectedPrescription): ?>
             <div class="grid grid-cols-2 gap-4 mb-6 text-gray-700 text-sm border-b pb-4">
-                <div><span class="font-bold">ឈ្មោះ៖</span> <?= htmlspecialchars($selectedPrescription['patientName']) ?></div>
+                <div><span class="font-bold">ឈ្មោះ៖</span> <?php echo htmlspecialchars($selectedPrescription['patientName']); ?></div>
                 <div class="flex space-x-6">
-                    <div><span class="font-bold">ភេទ៖</span> <?= htmlspecialchars($selectedPrescription['gender']) ?></div>
-                    <div><span class="font-bold">អាយុ៖</span> <?= (int)$selectedPrescription['age'] ?> ឆ្នាំ</div>
+                    <div><span class="font-bold">ភេទ៖</span> <?php echo htmlspecialchars($selectedPrescription['gender']); ?></div>
+                    <div><span class="font-bold">អាយុ៖</span> <?php echo (int)$selectedPrescription['age']; ?> ឆ្នាំ</div>
                 </div>
                 <div class="col-span-2">
-                    <span class="font-bold">រោគវិនិច្ឆ័យ៖</span> <?= htmlspecialchars($selectedPrescription['diagnosis']) ?>
+                    <span class="font-bold">រោគវិនិច្ឆ័យ៖</span> <?php echo htmlspecialchars($selectedPrescription['diagnosis']); ?>
                 </div>
             </div>
 
@@ -163,20 +195,20 @@ $formattedDate = date('d F Y');
                 <tbody>
                 <?php foreach ($selectedPrescription['medicines'] as $index => $med): ?>
                     <tr>
-                        <td class="border px-4 py-2 text-center"><?= $index + 1 ?></td>
-                        <td class="border px-4 py-2"><?= htmlspecialchars($med['name']) ?></td>
-                        <td class="border px-4 py-2 text-center"><?= $med['morning'] ?></td>
-                        <td class="border px-4 py-2 text-center"><?= $med['afternoon'] ?></td>
-                        <td class="border px-4 py-2 text-center"><?= $med['evening'] ?></td>
-                        <td class="border px-4 py-2 text-center"><?= $med['night'] ?></td>
-                        <td class="border px-4 py-2 text-center"><?= $med['quantity'] ?></td>
+                        <td class="border px-4 py-2 text-center"><?php echo $index + 1; ?></td>
+                        <td class="border px-4 py-2"><?php echo htmlspecialchars($med['name']); ?></td>
+                        <td class="border px-4 py-2 text-center"><?php echo $med['morning']; ?></td>
+                        <td class="border px-4 py-2 text-center"><?php echo $med['afternoon']; ?></td>
+                        <td class="border px-4 py-2 text-center"><?php echo $med['evening']; ?></td>
+                        <td class="border px-4 py-2 text-center"><?php echo $med['night']; ?></td>
+                        <td class="border px-4 py-2 text-center"><?php echo $med['quantity']; ?></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
             </table>
 
             <div class="text-right mt-4">
-                <p><strong>វេជ្ជបណ្ឌិត៖</strong> <?= htmlspecialchars($selectedPrescription['doctor']) ?></p>
+                <p><strong>វេជ្ជបណ្ឌិត៖</strong> <?php echo htmlspecialchars($selectedPrescription['doctor']); ?></p>
             </div>
         <?php endif; ?>
 
@@ -186,7 +218,7 @@ $formattedDate = date('d F Y');
         </div>
     </div>
 
-    <!-- Invoice Page -->
+    <!-- Invoice Page (WITH PRICES) -->
     <div>
         <div class="flex justify-between items-center mb-6">
             <img src="pic/left.png" alt="Logo Left" class="h-20 w-auto" />
@@ -203,6 +235,7 @@ $formattedDate = date('d F Y');
                 <th class="border px-4 py-2 text-center">ល.រ</th>
                 <th class="border px-4 py-2">ឈ្មោះថ្នាំ</th>
                 <th class="border px-4 py-2 text-right">តម្លៃរាយ</th>
+                <th class="border px-4 py-2 text-right">ចំនួន</th>
                 <th class="border px-4 py-2 text-right">តម្លៃសរុប</th>
             </tr>
             </thead>
@@ -213,26 +246,26 @@ $formattedDate = date('d F Y');
                 $unitPrice = (float)$med['unit_price'];
                 $quantity = (int)$med['quantity'];
                 $total = $unitPrice * $quantity;
-                $grandTotal += $total;
                 ?>
                 <tr>
-                    <td class="border px-4 py-2 text-center"><?= $index++ ?></td>
-                    <td class="border px-4 py-2"><?= htmlspecialchars($med['name']) ?></td>
-                    <td class="border px-4 py-2 text-right"><?= number_format($unitPrice) ?> រៀល</td>
-                    <td class="border px-4 py-2 text-right"><?= number_format($total) ?> រៀល</td>
+                    <td class="border px-4 py-2 text-center"><?php echo $index++; ?></td>
+                    <td class="border px-4 py-2"><?php echo htmlspecialchars($med['name']); ?></td>
+                    <td class="border px-4 py-2 text-right"><?php echo number_format($unitPrice); ?> រៀល</td>
+                    <td class="border px-4 py-2 text-right"><?php echo $quantity; ?></td>
+                    <td class="border px-4 py-2 text-right"><?php echo number_format($total); ?> រៀល</td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="4" class="border px-4 py-2 text-right font-bold">សរុបរួម៖</td>
+                <td class="border px-4 py-2 text-right font-bold"><?php echo number_format($grandTotal); ?> រៀល</td>
+            </tr>
+            </tfoot>
         </table>
 
-        <div class="flex justify-end mb-6">
-            <div class="w-1/2 bg-gray-200 p-2 font-bold text-right text-gray-700">
-                សរុប: <?= number_format($grandTotal) ?> រៀល
-            </div>
-        </div>
-
         <div class="text-sm text-gray-700 text-right mb-4">
-            <p>ថ្ងៃខែឆ្នាំ៖ <?= date('d F Y') ?></p>
+            <p>ថ្ងៃខែឆ្នាំ៖ <?php echo date('d F Y'); ?></p>
             <p>អ្នកទទួលប្រាក់</p>
             <img src="pic/yeang.jpg" alt="Signature" class="h-20 w-auto ml-auto my-2" />
             <p>Seng Chhunyeang</p>
