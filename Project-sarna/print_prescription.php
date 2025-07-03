@@ -119,7 +119,7 @@ $formattedDate = date('d F Y');
 <!DOCTYPE html>
 <html lang="km">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>វិក្កយបត្រ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -127,36 +127,48 @@ $formattedDate = date('d F Y');
             body * {
                 visibility: hidden;
             }
-            #invoice, #invoice * {
+            #invoice,
+            #invoice * {
                 visibility: visible;
             }
             #invoice {
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 100%;
-                height: 100%;
+                width: 100vw !important;
+                height: 100vh !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
             }
             #printButton {
-                display: none;
+                display: none !important;
             }
-        }
-        .page-break {
-            page-break-after: always;
+            .page-break {
+                page-break-after: always;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-100 p-6" style="font-family: 'Khmer OS Battambang', sans-serif;">
+<body class="bg-gray-100 p-0 m-0 font-sans" style="font-family: 'Khmer OS Battambang', sans-serif;">
 
 <!-- Print Button -->
-<div class="flex justify-center mb-4">
-    <button id="printButton" onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded shadow">
+<div class="flex justify-center mb-4 p-4 bg-gray-100 sticky top-0 z-50">
+    <button
+            id="printButton"
+            onclick="window.print()"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded shadow"
+    >
         បោះពុម្ពវិក្កយបត្រ
     </button>
 </div>
 
 <!-- Invoice & Prescription Content -->
-<div id="invoice" class="max-w-[148mm] min-h-[210mm] bg-white border border-gray-400 p-6 mx-auto relative shadow-md rounded">
+<div
+        id="invoice"
+        class="w-screen h-screen bg-white border border-gray-400 p-6 overflow-y-auto relative shadow-md rounded-none max-w-none"
+>
     <!-- Prescription Page (NO PRICES) -->
     <div class="page-break">
         <div class="flex justify-between items-center mb-6">
@@ -170,13 +182,23 @@ $formattedDate = date('d F Y');
 
         <?php if ($selectedPrescription): ?>
             <div class="grid grid-cols-2 gap-4 mb-6 text-gray-700 text-sm border-b pb-4">
-                <div><span class="font-bold">ឈ្មោះ៖</span> <?php echo htmlspecialchars($selectedPrescription['patientName']); ?></div>
+                <div>
+                    <span class="font-bold">ឈ្មោះ៖</span>
+                    <?php echo htmlspecialchars($selectedPrescription['patientName']); ?>
+                </div>
                 <div class="flex space-x-6">
-                    <div><span class="font-bold">ភេទ៖</span> <?php echo htmlspecialchars($selectedPrescription['gender']); ?></div>
-                    <div><span class="font-bold">អាយុ៖</span> <?php echo (int)$selectedPrescription['age']; ?> ឆ្នាំ</div>
+                    <div>
+                        <span class="font-bold">ភេទ៖</span>
+                        <?php echo htmlspecialchars($selectedPrescription['gender']); ?>
+                    </div>
+                    <div>
+                        <span class="font-bold">អាយុ៖</span>
+                        <?php echo (int)$selectedPrescription['age']; ?> ឆ្នាំ
+                    </div>
                 </div>
                 <div class="col-span-2">
-                    <span class="font-bold">រោគវិនិច្ឆ័យ៖</span> <?php echo htmlspecialchars($selectedPrescription['diagnosis']); ?>
+                    <span class="font-bold">រោគវិនិច្ឆ័យ៖</span>
+                    <?php echo htmlspecialchars($selectedPrescription['diagnosis']); ?>
                 </div>
             </div>
 

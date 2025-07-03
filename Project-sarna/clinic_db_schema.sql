@@ -53,8 +53,8 @@ INSERT INTO medicine_prices (name, price) VALUES
 ('Paracetamol', 2000),
 ('Amoxicillin', 5000),
 ('Ibuprofen', 3000),
-('Vitamin C', 1500);
-
+('Vitamin C', 1500),
+('ABC', 1500);
 CREATE TABLE patients (
   id INT AUTO_INCREMENT PRIMARY KEY,
   patient_name VARCHAR(100) NOT NULL,
