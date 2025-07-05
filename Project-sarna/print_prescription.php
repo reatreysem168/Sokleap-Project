@@ -1,7 +1,8 @@
 <?php
 // Connect to the database
 try {
-    $pdo = new PDO('mysql:host=localhost;dbname=clinic_db;charset=utf8', 'root', '');
+//     $pdo = new PDO('mysql:host=localhost;dbname=clinic_db;charset=utf8', 'root', '');
+$pdo = new PDO('mysql:host=localhost;port=3307;dbname=clinic_db;charset=utf8', 'root', '1234');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());

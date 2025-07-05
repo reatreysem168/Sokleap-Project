@@ -1,6 +1,7 @@
 -- Database: clinic_db
 
 CREATE DATABASE IF NOT EXISTS clinic_db;
+
 USE clinic_db;
 
 -- Table: prescriptions
@@ -70,3 +71,23 @@ CREATE TABLE patients (
 );
 select * from prescriptions;
 ALTER TABLE medicines ADD COLUMN unit_price DECIMAL(10,2) NOT NULL DEFAULT 0;
+CREATE TABLE IF NOT EXISTS diagnoses (
+                                         id INT AUTO_INCREMENT PRIMARY KEY,
+                                         name VARCHAR(255) NOT NULL UNIQUE
+);
+CREATE TABLE IF NOT EXISTS diagnoses (
+                                         id INT AUTO_INCREMENT PRIMARY KEY,
+                                         name VARCHAR(255) NOT NULL UNIQUE
+);
+select * from diagnoses;
+INSERT INTO diagnoses (name) VALUES
+                                 ('Flu'),
+                                 ('Headache'),
+                                 ('Back Pain'),
+                                 ('Diarrhea'),
+                                 ('Respiratory Disease'),
+                                 ('Heart Disease'),
+                                 ('Diabetes'),
+                                 ('Toothache'),
+                                 ('Arthritis'),
+                                 ('Stomachache');

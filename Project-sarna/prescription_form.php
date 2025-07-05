@@ -1,3 +1,11 @@
+<?php
+require 'db_connect.php'; // Make sure this sets $pdo as your PDO connection
+
+$diagnoses = [];
+$stmt = $pdo->query("SELECT DISTINCT name FROM diagnoses ORDER BY name");
+$diagnoses = $stmt->fetchAll(PDO::FETCH_COLUMN);
+?>
+
 <!DOCTYPE html>
 <html lang="km">
 <head>
@@ -24,39 +32,39 @@
     <header class="flex justify-between items-center mb-6">
         <img src="pic/left.png" alt="Left Logo" class="h-14" />
         <div class="text-center text-2xl font-bold">
-            មន្ទីរពហុព្យាបាល​ សុខ លាភ មេត្រី<br/>
+            មន្ទីរពហុព្យាបាល សុខ លាភ មេត្រី<br/>
             SOK LEAP METREY POLYCLINIC
         </div>
         <img src="pic/right.png" alt="Right Logo" class="h-14" />
     </header>
 
-    <form id="patientForm" class="mb-6">
-        <h2 class="text-xl font-semibold mb-4">ព័ត៌មានអ្នកជំងឺ</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <input list="patientNames" type="text" id="patientName" placeholder="ឈ្មោះអ្នកជំងឺ" required class="p-2 border rounded" />
-            <datalist id="patientNames"></datalist>
+    <form id="patientForm" action="save_patient.php" method="POST" class="mb-6">
+      <h2 class="text-xl font-semibold mb-4">ព័ត៌មានអ្នកជំងឺ</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <input list="patientNames" type="text" id="patientName" name="patientName" placeholder="ឈ្មោះអ្នកជំងឺ" required class="p-2 border rounded" />
+        <datalist id="patientNames"></datalist>
 
-            <select id="gender" required class="p-2 border rounded">
-                <option value="">ជ្រើសរើសភេទ</option>
-                <option value="ប្រុស">ប្រុស</option>
-                <option value="ស្រី">ស្រី</option>
-                <option value="ផ្សេងៗ">ផ្សេងៗ</option>
-            </select>
+        <select id="gender" name="gender" required class="p-2 border rounded">
+          <option value="">-- ជ្រើសរើស ភេទ --</option>
+          <option value="ប្រុស">ប្រុស</option>
+          <option value="ស្រី">ស្រី</option>
+        </select>
 
-            <div>
-                <label for="age" class="block">អាយុ (ឆ្នាំ)</label>
-                <input type="number" id="age" min="0" placeholder="អាយុ" required class="p-2 border rounded w-full" />
-            </div>
+        <div>
+          <label for="age" class="block">អាយុ (ឆ្នាំ)</label>
+          <input type="number" id="age" name="age" min="0" placeholder="អាយុ" required class="p-2 border rounded w-full" />
         </div>
+      </div>
 
-        <div class="mt-5">
-            <label for="diagnosis" class="font-semibold">រោគវិនិច្ឆ័យ៖</label>
-            <input type="search" id="diagnosis" name="diagnosis" placeholder="ស្វែងរករោគវិនិច្ឆ័យ..." list="diagnosis-list" class="p-2 border rounded w-full max-w-md" />
-            <datalist id="diagnosis-list"></datalist>
-        </div>
+      <div class="mt-5">
+        <label for="diagnosis" class="font-semibold">រោគវិនិច្ឆ័យ៖</label>
+        <input type="search" id="diagnosis" name="diagnosis" placeholder="ស្វែងរករោគវិនិច្ឆ័យ..." list="diagnosis-list" class="p-2 border rounded w-full max-w-md" />
+        <datalist id="diagnosis-list"></datalist>
+      </div>
 
-        <button type="submit" class="mt-4 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">រក្សាទុក</button>
+      <button type="submit" class="mt-4 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">រក្សាទុក</button>
     </form>
+
 
     <form id="medicineForm" class="mb-6 hidden">
         <h2 class="text-xl font-semibold mb-4">ព័ត៌មានថ្នាំពេទ្យ</h2>
