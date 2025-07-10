@@ -56,6 +56,7 @@ INSERT INTO medicine_prices (name, price) VALUES
 ('Ibuprofen', 3000),
 ('Vitamin C', 1500),
 ('ABC', 1500);
+select * from medicine_prices;
 CREATE TABLE patients (
   id INT AUTO_INCREMENT PRIMARY KEY,
   patient_name VARCHAR(100) NOT NULL,
@@ -75,10 +76,7 @@ CREATE TABLE IF NOT EXISTS diagnoses (
                                          id INT AUTO_INCREMENT PRIMARY KEY,
                                          name VARCHAR(255) NOT NULL UNIQUE
 );
-CREATE TABLE IF NOT EXISTS diagnoses (
-                                         id INT AUTO_INCREMENT PRIMARY KEY,
-                                         name VARCHAR(255) NOT NULL UNIQUE
-);
+drop  table diagnoses;
 select * from diagnoses;
 INSERT INTO diagnoses (name) VALUES
                                  ('Flu'),
