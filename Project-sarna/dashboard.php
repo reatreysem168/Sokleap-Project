@@ -27,7 +27,7 @@ if (!isset($_SESSION['username'])) {
                 <li><a href="prescription_form.php" class="flex items-center gap-3 px-4 py-2 hover:bg-teal-500 rounded transition"><i class="fas fa-prescription-bottle-alt"></i> Prescription</a></li>
                 <li><a href="print_prescription.php" class="flex items-center gap-3 px-4 py-2 hover:bg-teal-500 rounded transition"><i class="fas fa-file-medical-alt"></i> & Invoice</a></li>
                 <li><a href="Patient/input_patient_info.php" class="flex items-center gap-3 px-4 py-2 hover:bg-teal-500 rounded transition"><i class="fas fa-user-plus"></i> Input Patient Info</a></li>
-                <li><a href="Doctor_info/doctor_info.php" class="flex items-center gap-3 px-4 py-2 hover:bg-teal-500 rounded transition"><i class="fas fa-user-md"></i> Input Doctor Info</a></li>
+                <li><a href="doctor_info.php" class="flex items-center gap-3 px-4 py-2 hover:bg-teal-500 rounded transition"><i class="fas fa-user-md"></i> Input Doctor Info</a></li>
                 <li><a href="Medicine_info/medicine_info.php" class="flex items-center gap-3 px-4 py-2 hover:bg-teal-500 rounded transition"><i class="fas fa-pills"></i> Medicine Input</a></li>
                 <li><a href="report.php" class="flex items-center gap-3 px-4 py-2 hover:bg-teal-500 rounded transition"><i class="fas fa-dollar-sign"></i> Add Receiver Money</a></li>
                 <li><a href="report.php" class="flex items-center gap-3 px-4 py-2 hover:bg-teal-500 rounded transition"><i class="fas fa-capsules"></i> Add Medicine</a></li>
