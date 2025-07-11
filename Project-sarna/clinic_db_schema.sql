@@ -76,16 +76,19 @@ CREATE TABLE IF NOT EXISTS diagnoses (
                                          id INT AUTO_INCREMENT PRIMARY KEY,
                                          name VARCHAR(255) NOT NULL UNIQUE
 );
-drop  table diagnoses;
-select * from diagnoses;
-INSERT INTO diagnoses (name) VALUES
-                                 ('Flu'),
-                                 ('Headache'),
-                                 ('Back Pain'),
-                                 ('Diarrhea'),
-                                 ('Respiratory Disease'),
-                                 ('Heart Disease'),
-                                 ('Diabetes'),
-                                 ('Toothache'),
-                                 ('Arthritis'),
-                                 ('Stomachache');
+
+# table staff
+CREATE TABLE IF NOT EXISTS staff (
+                                     id INT AUTO_INCREMENT PRIMARY KEY,
+                                     full_name VARCHAR(255) NOT NULL,
+                                     gender VARCHAR(10),
+                                     dob DATE,
+                                     department VARCHAR(100),
+                                     salary DECIMAL(10, 2),
+                                     email VARCHAR(100),
+                                     phone VARCHAR(20),
+                                     address TEXT,
+                                     profile_pic VARCHAR(255),
+                                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+select * FROM staff;

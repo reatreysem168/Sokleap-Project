@@ -52,11 +52,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         'text' => '& Invoice'
                     ],
                     [
-                        'url' => 'Patient/input_patient_info.php',
-                        'icon' => 'fa-user-plus',
-                        'text' => 'Input Patient Info'
-                    ],
-                    [
                         'url' => 'doctor_info.php',
                         'icon' => 'fa-user-md',
                         'text' => 'Input Doctor Info'
@@ -68,23 +63,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     ],
                     [
                         'url' => 'report.php',
-                        'icon' => 'fa-dollar-sign',
-                        'text' => 'Add Receiver Money'
-                    ],
-                    [
-                        'url' => 'report.php',
-                        'icon' => 'fa-capsules',
-                        'text' => 'Add Medicine'
-                    ],
-                    [
-                        'url' => 'report.php',
                         'icon' => 'fa-notes-medical',
                         'text' => 'Add Diagnosis'
-                    ],
-                    [
-                        'url' => 'report.php',
-                        'icon' => 'fa-hand-holding-usd',
-                        'text' => 'Add Receiver Money'
                     ],
                     [
                         'url' => 'report.php',
