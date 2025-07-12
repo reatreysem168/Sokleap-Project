@@ -71,13 +71,28 @@
                                     <div class="text-sm text-gray-500"><?= htmlspecialchars($member['phone']) ?></div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="edit_staff.php?id=<?= $member['id'] ?>" class="text-blue-600 hover:text-blue-900 mr-3">
+                                    <!-- View Button (ID Card) -->
+                                    <a href="card_staff/card_staff.php?id=<?= $member['id'] ?>"
+                                       class="text-green-600 hover:text-green-900 mr-3"
+                                       title="View ID Card">
+                                        <i class="fas fa-id-card"></i>
+                                    </a>
+
+                                    <!-- Edit Button -->
+                                    <a href="edit_staff.php?id=<?= $member['id'] ?>"
+                                       class="text-blue-600 hover:text-blue-900 mr-3"
+                                       title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form action="delete_staff.php" method="POST" class="inline-block">
+
+                                    <!-- Delete Form -->
+                                    <form action="delete_staff.php" method="POST" class="inline">
                                         <input type="hidden" name="id" value="<?= $member['id'] ?>">
                                         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
-                                        <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this staff member?')">
+                                        <button type="submit"
+                                                class="text-red-600 hover:text-red-900"
+                                                onclick="return confirm('Are you sure?')"
+                                                title="Delete">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>

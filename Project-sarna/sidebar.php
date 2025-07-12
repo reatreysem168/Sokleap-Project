@@ -27,11 +27,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <?php
                 $menu_items = [
                     [
-                        'url' => '#',
-                        'icon' => 'fa-chart-pie',
-                        'text' => 'Dashboard'
-                    ],
-                    [
                         'url' => 'Manage Page/index.php',
                         'icon' => 'fa-cogs',
                         'text' => 'Admin Page'
