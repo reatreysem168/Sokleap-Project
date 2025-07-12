@@ -1,5 +1,5 @@
 <?php
-require  '../db_connect.php';
+require '../db_connect.php';
 
 // Validate staff ID
 if (!isset($_GET['id'])) {
@@ -70,7 +70,7 @@ try {
                     class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                 <i class="fas fa-print mr-2"></i> Print ID Card
             </button>
-            <a href="../staff_list.php"
+            <a href="../doctor_info.php"
                class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 ml-2">
                 <i class="fas fa-arrow-left mr-2"></i> Back to List
             </a>
@@ -121,7 +121,7 @@ try {
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Position:</p>
-                        <p><?php echo htmlspecialchars($staff['position'] ?? 'N/A'); ?></p>
+                        <p><?php echo htmlspecialchars($staff['department'] ?? 'N/A'); ?></p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Phone:</p>

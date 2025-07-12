@@ -52,7 +52,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         'text' => 'Medicine Input'
                     ],
                     [
-                        'url' => 'report.php',
+                        'url' => 'insert_diagnosis.php',
                         'icon' => 'fa-notes-medical',
                         'text' => 'Add Diagnosis'
                     ],

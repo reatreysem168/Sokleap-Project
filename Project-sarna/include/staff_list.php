@@ -68,7 +68,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <!-- View Button (ID Card) -->
-                                    <a href="card_staff/card_staff.php?id=<?= $member['id'] ?>"
+                                    <a href="include/card_staff.php?id=<?= $member['id'] ?>"
                                        class="text-green-600 hover:text-green-900 mr-3"
                                        title="View ID Card">
                                         <i class="fas fa-id-card"></i>
