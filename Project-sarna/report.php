@@ -19,7 +19,7 @@ $reports = [
     <?php include 'sidebar.php'; ?>
 
     <!-- Main Content -->
-    <main class="flex-1 p-6 bg-gray-100">
+    <main class="ml-64 p-8 flex-1 p-6 bg-gray-100">
         <h2 class="text-2xl font-bold mb-6">Dashboard</h2>
 
         <!-- Cards -->

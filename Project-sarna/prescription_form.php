@@ -42,7 +42,7 @@ try {
     <?php include 'sidebar.php'; ?>
 
     <!-- Main Content -->
-    <div class="flex-1 p-6 overflow-y-auto bg-gray-50 khmer-font">
+    <div class="ml-64 p-8 flex-1 p-6 overflow-y-auto bg-gray-50 khmer-font">
         <div class="text-right mb-4">
             <button type="button" onclick="sendToPrint()"
                     class="px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">

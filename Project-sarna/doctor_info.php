@@ -52,11 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="bg-gray-100 font-sans">
 <div class="flex min-h-screen">
-    <?php include 'sidebar.php'; ?>
-    <div class="flex-1 p-8 overflow-auto">
+    <div class="">
+        <?php include 'sidebar.php'; ?>
+    </div>
+    <div class="ml-64 p-8 flex-1">
         <div class="bg-white rounded-xl shadow-md p-8">
             <h4 class="mb-6 text-xl font-semibold text-blue-600 text-center">បញ្ចូលទិន្នន័យបុគ្គលិក</h4>
-            <form action="save_staff.php" method="POST" enctype="multipart/form-data">
+            <form action="save_staff.php" method="POST" enctype="multipart/form-data" class="bg-white rounded-xl shadow-md p-8">
                 <!-- Row 1: Full Name | Gender | DOB -->
                 <div class="grid grid-cols-12 gap-4 mb-4">
                     <div class="col-span-12 md:col-span-6">
@@ -135,8 +137,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </button>
                 </div>
             </form>
+            <div >
+                <?php include "include/staff_list.php"; ?>
+            </div>
         </div>
+
     </div>
+
 </div>
+
 </body>
 </html>

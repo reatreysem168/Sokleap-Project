@@ -17,10 +17,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-100 font-sans">
-<div class="flex min-h-screen">
+<div class="sticky top-0  overflow-y-auto ">
 
     <!-- Sidebar -->
-    <nav class="w-64 bg-gradient-to-b from-gray-800 to-gray-700 text-white flex flex-col justify-between p-4 overflow-y-auto">
+    <nav class="fixed top-0 left-0 h-screen w-64 bg-gray-800 text-white overflow-y-auto">
         <div>
             <h4 class="text-center text-yellow-400 font-bold text-xl mb-6">SLM1</h4>
             <ul class="space-y-2">
@@ -30,11 +30,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         'url' => '#',
                         'icon' => 'fa-chart-pie',
                         'text' => 'Dashboard'
-                    ],
-                    [
-                        'url' => 'dashboard.php',
-                        'icon' => 'fa-database',
-                        'text' => 'Management DB'
                     ],
                     [
                         'url' => 'Manage Page/index.php',
@@ -65,6 +60,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         'url' => 'report.php',
                         'icon' => 'fa-notes-medical',
                         'text' => 'Add Diagnosis'
+                    ],
+                    [
+                        'url' => 'staff_list.php',
+                        'icon' => 'fa-notes-medical',
+                        'text' => 'View Staff'
                     ],
                     [
                         'url' => 'report.php',
