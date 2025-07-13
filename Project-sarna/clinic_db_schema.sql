@@ -1,6 +1,7 @@
 -- Database: clinic_db
 
 CREATE DATABASE IF NOT EXISTS clinic_db;
+
 USE clinic_db;
 
 -- Table: prescriptions
@@ -53,5 +54,41 @@ INSERT INTO medicine_prices (name, price) VALUES
 ('Paracetamol', 2000),
 ('Amoxicillin', 5000),
 ('Ibuprofen', 3000),
-('Vitamin C', 1500);
+('Vitamin C', 1500),
+('ABC', 1500);
+select * from medicine_prices;
+CREATE TABLE patients (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  patient_name VARCHAR(100) NOT NULL,
+  gender VARCHAR(10),
+  age INT,
+  dob DATE,
+  contact VARCHAR(20),
+  email VARCHAR(100),
+  address TEXT,
+  blood_group VARCHAR(10),
+  medical_history TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+select * from prescriptions;
+ALTER TABLE medicines ADD COLUMN unit_price DECIMAL(10,2) NOT NULL DEFAULT 0;
+CREATE TABLE IF NOT EXISTS diagnoses (
+                                         id INT AUTO_INCREMENT PRIMARY KEY,
+                                         name VARCHAR(255) NOT NULL UNIQUE
+);
 
+# table staff
+CREATE TABLE IF NOT EXISTS staff (
+                                     id INT AUTO_INCREMENT PRIMARY KEY,
+                                     full_name VARCHAR(255) NOT NULL,
+                                     gender VARCHAR(10),
+                                     dob DATE,
+                                     department VARCHAR(100),
+                                     salary DECIMAL(10, 2),
+                                     email VARCHAR(100),
+                                     phone VARCHAR(20),
+                                     address TEXT,
+                                     profile_pic VARCHAR(255),
+                                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+select * FROM staff;

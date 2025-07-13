@@ -5,7 +5,7 @@ require 'db.php';
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Dashboard - Clinic Sok Leap Metrey</title>
   <style>
     * {
@@ -106,6 +106,21 @@ require 'db.php';
       text-decoration: underline;
     }
 
+    .export-buttons button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      margin-right: 10px;
+      padding: 8px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .export-buttons button:hover {
+      background-color: #2874c9;
+    }
+
     @media (max-width: 768px) {
       table, thead, tbody, th, td, tr {
         display: block;
@@ -151,6 +166,7 @@ require 'db.php';
       td:nth-of-type(10)::before { content: "Doctor / Actions"; }
     }
   </style>
+
   <script>
     function openTab(tabName) {
       const contents = document.getElementsByClassName("tabcontent");
@@ -162,7 +178,80 @@ require 'db.php';
     }
 
     window.onload = () => openTab('Prescriptions');
+
+    function exportTableToCSV(filename, tabId) {
+      const table = document.getElementById(tabId).querySelector('table');
+      let csv = [];
+      for (let row of table.rows) {
+        let cols = [];
+        for (let cell of row.cells) {
+          let text = cell.innerText.replace(/"/g, '""');
+          cols.push(`"${text}"`);
+        }
+        csv.push(cols.join(","));
+      }
+      const csvString = csv.join("\n");
+      const blob = new Blob([csvString], { type: 'text/csv' });
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = URL.createObjectURL(blob);
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function printTable(tabId) {
+      const content = document.getElementById(tabId).innerHTML;
+      const originalContent = document.body.innerHTML;
+      document.body.innerHTML = `<h1>Print - ${tabId}</h1>` + content;
+      window.print();
+      document.body.innerHTML = originalContent;
+      location.reload();
+    }
+
+    async function exportTableToPDF(tabId) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const table = document.getElementById(tabId).querySelector('table');
+      const rows = [];
+      const headers = [];
+
+      for (let th of table.querySelectorAll('thead th, table tr:first-child th')) {
+        headers.push(th.innerText);
+      }
+
+      if (headers.length === 0 && table.rows.length > 0) {
+        for (let cell of table.rows[0].cells) {
+          headers.push(cell.innerText);
+        }
+      }
+      rows.push(headers);
+
+      for (let i = 1; i < table.rows.length; i++) {
+        const row = [];
+        for (let cell of table.rows[i].cells) {
+          row.push(cell.innerText);
+        }
+        rows.push(row);
+      }
+
+      doc.setFontSize(14);
+      doc.text(tabId + " Export", 14, 15);
+      doc.autoTable({
+        startY: 20,
+        head: [rows[0]],
+        body: rows.slice(1),
+        styles: { fontSize: 10 },
+        headStyles: { fillColor: [41, 128, 185] }
+      });
+      doc.save(tabId + '.pdf');
+    }
   </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
 </head>
 <body>
 
@@ -176,6 +265,11 @@ require 'db.php';
 
 <div id="Prescriptions" class="tabcontent">
   <h2>Prescriptions</h2>
+  <div class="export-buttons">
+    <button onclick="exportTableToCSV('prescriptions.csv', 'Prescriptions')">Export CSV</button>
+    <button onclick="exportTableToPDF('Prescriptions')">Export PDF</button>
+    <button onclick="printTable('Prescriptions')">Print</button>
+  </div>
   <table>
     <tr>
       <th>ID</th><th>Patient Name</th><th>Age</th><th>Gender</th><th>Diagnosis</th><th>Doctor</th><th>Date</th><th>Actions</th>
@@ -203,6 +297,11 @@ require 'db.php';
 
 <div id="Medicines" class="tabcontent">
   <h2>Medicines</h2>
+  <div class="export-buttons">
+    <button onclick="exportTableToCSV('medicines.csv', 'Medicines')">Export CSV</button>
+    <button onclick="exportTableToPDF('Medicines')">Export PDF</button>
+    <button onclick="printTable('Medicines')">Print</button>
+  </div>
   <table>
     <tr>
       <th>ID</th><th>Prescription ID</th><th>Name</th><th>Morning</th><th>Afternoon</th><th>Evening</th><th>Night</th><th>Qty</th><th>Instructions</th><th>Actions</th>
@@ -232,9 +331,14 @@ require 'db.php';
 
 <div id="Invoices" class="tabcontent">
   <h2>Invoices</h2>
+  <div class="export-buttons">
+    <button onclick="exportTableToCSV('invoices.csv', 'Invoices')">Export CSV</button>
+    <button onclick="exportTableToPDF('Invoices')">Export PDF</button>
+    <button onclick="printTable('Invoices')">Print</button>
+  </div>
   <table>
     <tr>
-      <th>ID</th><th>Prescription ID</th><th>Receive By</th><th>Total Amount</th><th>Actions</th>
+      <th>ID</th><th>Prescription ID</th><th>Patient</th><th>Total Amount</th><th>Date</th><th>Actions</th>
     </tr>
     <?php
     $result = $conn->query("SELECT * FROM invoices");
@@ -242,10 +346,11 @@ require 'db.php';
         echo '<tr>
             <td>' . $row['id'] . '</td>
             <td>' . $row['prescription_id'] . '</td>
-            <td>' . $row['receive_by'] . '</td>
-            <td>' . number_format($row['total_amount']) . ' ៛</td>
+            <td>' . ($row['patient_name'] ?? 'Unknown Patient') . '</td>
+            <td>' . number_format($row['total_amount'], 2) . '</td>
+            <td>' . ($row['date'] ?? 'Unknown Date') . '</td>
             <td>
-                <a href="edit_invoice.php?id=' . $row['id'] . '">Edit</a> |
+                <a href="view_invoice.php?id=' . $row['id'] . '">View</a> |
                 <a href="delete_invoice.php?id=' . $row['id'] . '" onclick="return confirm(\'Are you sure?\')">Delete</a>
             </td>
         </tr>';
