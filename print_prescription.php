@@ -1,14 +1,7 @@
 <?php
 // Connect to the database
-try {
-//     $pdo = new PDO('mysql:host=localhost;dbname=clinic_db;charset=utf8', 'root', '');
-$pdo = new PDO('mysql:host=localhost;port=3307;dbname=clinic_db;charset=utf8', 'root', '1234');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
-
-// If this is a POST request with prescription data
+include 'db_connect.php';
+// Save data if POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['medicines'])) {
     $pdo->beginTransaction();
 
@@ -31,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['medicines'])) {
         $stmt = $pdo->prepare("INSERT INTO medicines (prescription_id, name, morning, afternoon, evening, night, quantity, instructions, unit_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         foreach ($medicines as $med) {
-            // Get unit price from medicine_prices table if available
             $unitPrice = 0;
             if (!empty($med['name'])) {
                 $priceStmt = $pdo->prepare("SELECT price FROM medicine_prices WHERE name = ?");
@@ -40,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['medicines'])) {
                 $unitPrice = $priceData ? $priceData['price'] : 0;
             }
 
-            // Override with manual price if provided
             if (isset($med['unit_price']) && is_numeric($med['unit_price'])) {
                 $unitPrice = (float)$med['unit_price'];
             }
@@ -58,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['medicines'])) {
             ]);
         }
 
-        // Also save to invoices table
+        // Save invoice
         $grandTotal = 0;
         foreach ($medicines as $med) {
             $quantity = (int)($med['quantity'] ?? 0);
@@ -80,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['medicines'])) {
     }
 }
 
+// Load last prescription
 $stmt = $pdo->query("SELECT id FROM prescriptions ORDER BY id DESC LIMIT 1");
 $lastPrescription = $stmt->fetch();
 $selectedPrescription = null;
@@ -92,8 +84,7 @@ if ($lastPrescription) {
     $stmt->execute([$id]);
     $prescription = $stmt->fetch();
 
-    $sql = "SELECT m.name, m.morning, m.afternoon, m.evening, m.night, m.quantity, m.instructions, m.unit_price FROM medicines m WHERE m.prescription_id = ?";
-    $stmt2 = $pdo->prepare($sql);
+    $stmt2 = $pdo->prepare("SELECT m.name, m.morning, m.afternoon, m.evening, m.night, m.quantity, m.instructions, m.unit_price FROM medicines m WHERE m.prescription_id = ?");
     $stmt2->execute([$id]);
     $medicines = $stmt2->fetchAll();
 
@@ -107,7 +98,6 @@ if ($lastPrescription) {
         'medicines' => $medicines
     ];
 
-    // Calculate grand total
     foreach ($medicines as $med) {
         $grandTotal += (float)$med['unit_price'] * (int)$med['quantity'];
     }
@@ -128,27 +118,32 @@ $formattedDate = date('d F Y');
             body * {
                 visibility: hidden;
             }
-            #invoice,
-            #invoice * {
+            #invoice, #invoice * {
                 visibility: visible;
             }
             #invoice {
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 100vw !important;
-                height: 100vh !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                border: none !important;
-                box-shadow: none !important;
+                width: 100% !important;
+                height: auto !important;
+                margin: 0;
+                padding: 0;
+                border: none;
+                box-shadow: none;
             }
             #printButton {
                 display: none !important;
             }
             .page-break {
                 page-break-after: always;
+                break-after: page;
             }
+        }
+
+        .page-break {
+            page-break-after: always;
+            break-after: page;
         }
     </style>
 </head>
@@ -161,21 +156,20 @@ $formattedDate = date('d F Y');
             onclick="window.print()"
             class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded shadow"
     >
-        បោះពុម្ពវិក្កយបត្រ
+        បោះពុម្ពវេជ្ជបញ្ជានិងវិក្កយបត្រ
     </button>
 </div>
 
-<!-- Invoice & Prescription Content -->
-<div
-        id="invoice"
-        class="w-screen h-screen bg-white border border-gray-400 p-6 overflow-y-auto relative shadow-md rounded-none max-w-none"
->
-    <!-- Prescription Page (NO PRICES) -->
+<!-- Invoice Container -->
+<div id="invoice" class="w-full max-w-full h-auto bg-white border border-gray-400 p-6 overflow-visible">
+
+    <!-- Page 1: Prescription -->
     <div class="page-break">
         <div class="flex justify-between items-center mb-6">
             <img src="pic/left.png" alt="Logo Left" class="h-20 w-auto" />
             <div class="text-center">
                 <h1 class="text-xl font-bold text-gray-700">មន្ទីរពេទ្យពហុព្យាបាល សុខលាភមេត្រី</h1>
+                <h1 class="text-xl font-bold text-gray-700">SOK LEAP METREY POLYCLINICH</h1>
                 <p class="text-lg font-bold text-gray-500">វេជ្ជបញ្ជា</p>
             </div>
             <img src="pic/right.png" alt="Logo Right" class="h-20 w-auto" />
@@ -183,24 +177,12 @@ $formattedDate = date('d F Y');
 
         <?php if ($selectedPrescription): ?>
             <div class="grid grid-cols-2 gap-4 mb-6 text-gray-700 text-sm border-b pb-4">
-                <div>
-                    <span class="font-bold">ឈ្មោះ៖</span>
-                    <?php echo htmlspecialchars($selectedPrescription['patientName']); ?>
-                </div>
+                <div><span class="font-bold">ឈ្មោះ៖</span> <?php echo htmlspecialchars($selectedPrescription['patientName']); ?></div>
                 <div class="flex space-x-6">
-                    <div>
-                        <span class="font-bold">ភេទ៖</span>
-                        <?php echo htmlspecialchars($selectedPrescription['gender']); ?>
-                    </div>
-                    <div>
-                        <span class="font-bold">អាយុ៖</span>
-                        <?php echo (int)$selectedPrescription['age']; ?> ឆ្នាំ
-                    </div>
+                    <div><span class="font-bold">ភេទ៖</span> <?php echo htmlspecialchars($selectedPrescription['gender']); ?></div>
+                    <div><span class="font-bold">អាយុ៖</span> <?php echo (int)$selectedPrescription['age']; ?> ឆ្នាំ</div>
                 </div>
-                <div class="col-span-2">
-                    <span class="font-bold">រោគវិនិច្ឆ័យ៖</span>
-                    <?php echo htmlspecialchars($selectedPrescription['diagnosis']); ?>
-                </div>
+                <div class="col-span-2"><span class="font-bold">រោគវិនិច្ឆ័យ៖</span> <?php echo htmlspecialchars($selectedPrescription['diagnosis']); ?></div>
             </div>
 
             <table class="w-full text-sm text-left text-gray-700 border-collapse mb-6">
@@ -230,26 +212,38 @@ $formattedDate = date('d F Y');
                 </tbody>
             </table>
 
-            <div class="text-right mt-4">
-                <p><strong>វេជ្ជបណ្ឌិត៖</strong> <?php echo htmlspecialchars($selectedPrescription['doctor']); ?></p>
+            <div class="text-sm text-gray-700 text-right mb-4">
+                <p>ថ្ងៃខែឆ្នាំ៖ <?php echo date('d F Y'); ?></p>
+                <p>គ្រូពេទ្យព្យាបាល</p>
+                <img src="pic/yeang.jpg" alt="Signature" class="h-20 w-auto ml-auto my-2" />
+                <p><?php echo htmlspecialchars($selectedPrescription['doctor']); ?></p>
             </div>
         <?php endif; ?>
 
-        <div class="text-sm text-gray-600 text-center w-full px-4 mt-12 print:mt-24">
-            <p>អាស័យដ្ឋានៈ ផ្លូវ ១៨៨ ផ្ទះលេខ ៨៦០, សង្កាត់ បឹងព្រលឹត, ខណ្ឌ៧មករា, ភ្នំពេញ</p>
-            <p>លេខទូរស័ព្ទ៖ ០១២-៣៤៥៦៧៨៩ / ០៩៨-៧៦៥៤៣២</p>
+        <div class="fixed bottom-0 text-sm text-gray-600 text-center w-full px-4 mt-12 print:mt-24">
+            <p>អាស័យដ្ឋានៈ ផ្ទះលេខ ៤៧ដេ ផ្លូវលេខ៣៦០, សង្កាត់ បឹងកេងកង១, ខណ្ឌ បឹងកេងកង, ភ្នំពេញ</p>
+            <p>ទូរស័ព្ទលេខ៖ ៨៥៥-០២៣ ៦៦៦៦ ២៣៧ / ០១១-៣៩ ៨៨៨៨</p>
         </div>
     </div>
 
-    <!-- Invoice Page (WITH PRICES) -->
+    <!-- Page 2: Invoice -->
     <div>
         <div class="flex justify-between items-center mb-6">
             <img src="pic/left.png" alt="Logo Left" class="h-20 w-auto" />
             <div class="text-center">
                 <h1 class="text-xl font-bold text-gray-700">មន្ទីរពេទ្យពហុព្យាបាល សុខលាភមេត្រី</h1>
+                <h1 class="text-xl font-bold text-gray-700">SOK LEAP METREY POLYCLINICH</h1>
                 <p class="text-lg font-bold text-gray-500">វិក្កយបត្រ</p>
             </div>
             <img src="pic/right.png" alt="Logo Right" class="h-20 w-auto" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-6 text-gray-700 text-sm border-b pb-4">
+            <div><span class="font-bold">ឈ្មោះ៖</span> <?php echo htmlspecialchars($selectedPrescription['patientName']); ?></div>
+            <div class="flex space-x-6">
+                <div><span class="font-bold">ភេទ៖</span> <?php echo htmlspecialchars($selectedPrescription['gender']); ?></div>
+                <div><span class="font-bold">អាយុ៖</span> <?php echo (int)$selectedPrescription['age']; ?> ឆ្នាំ</div>
+            </div>
         </div>
 
         <table class="w-full text-sm text-left text-gray-700 border-collapse mb-6">
@@ -294,9 +288,9 @@ $formattedDate = date('d F Y');
             <p>Seng Chhunyeang</p>
         </div>
 
-        <div class="text-sm text-gray-600 text-center w-full px-4 mt-12 print:mt-24">
-            <p>អាស័យដ្ឋានៈ ផ្លូវ ១៨៨ ផ្ទះលេខ ៨៦០, សង្កាត់ បឹងព្រលឹត, ខណ្ឌ៧មករា, ភ្នំពេញ</p>
-            <p>លេខទូរស័ព្ទ៖ ០១២-៣៤៥៦៧៨៩ / ០៩៨-៧៦៥៤៣២</p>
+        <div class="fixed bottom-0 text-sm text-gray-600 text-center w-full px-4 mt-12 print:mt-24">
+            <p>អាស័យដ្ឋានៈ ផ្ទះលេខ ៤៧ដេ ផ្លូវលេខ៣៦០, សង្កាត់ បឹងកេងកង១, ខណ្ឌ បឹងកេងកង, ភ្នំពេញ</p>
+            <p>ទូរស័ព្ទលេខ៖ ៨៥៥-០២៣ ៦៦៦៦ ២៣៧ / ០១១-៣៩ ៨៨៨៨</p>
         </div>
     </div>
 </div>

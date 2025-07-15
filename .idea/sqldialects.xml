@@ -10,6 +10,8 @@
     <file url="file://$PROJECT_DIR$/include/staff_list.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/include/update_staff.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/insert_diagnosis.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/prescription_form.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/print_prescription.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/staff_list.php" dialect="GenericSQL" />
   </component>
 </project>
