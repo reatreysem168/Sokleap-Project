@@ -180,12 +180,12 @@ if (!isset($diagnoses)) {
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Diagnosis Name</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                <th class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 z-10">ID</th>
+                                <th class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 z-10">Diagnosis Name</th>
+                                <th class="sticky top-0 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 z-10">Actions</th>
                             </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody class="bg-white divide-y divide-gray-200 ">
                             <?php foreach ($diagnoses as $diagnosis): ?>
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

@@ -128,7 +128,6 @@ if (!$staff) {
             <?php endif; ?>
             <input type="file" name="profile_pic" class="w-full border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
         </div>
-
         <div class="flex justify-end space-x-4">
             <a href="doctor_info.php" class="px-5 py-2 rounded bg-gray-500 text-white hover:bg-gray-600">Cancel</a>
             <button type="submit" class="px-5 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Update</button>
