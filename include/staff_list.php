@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,7 @@
 </head>
 <body class="bg-gray-100 font-sans">
 <div class="flex min-h-screen">
-    <div class=" p-8 flex-1 p-8 overflow-auto">
+    <div class="p-8 flex-1 overflow-auto">
         <!-- Staff Data Table -->
         <div class="bg-white rounded-xl shadow-md p-8">
             <h4 class="mb-6 text-xl font-semibold text-blue-600 text-center">បញ្ជីបុគ្គលិក</h4>
@@ -83,8 +82,7 @@
 
                                     <!-- Delete Form -->
                                     <form action="delete_staff.php" method="POST" class="inline">
-                                        <input type="hidden" name="id" value="<?= $member['id'] ?>">
-                                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                                    <input type="hidden" name="id" value="<?= $member['id'] ?>">
                                         <button type="submit"
                                                 class="text-red-600 hover:text-red-900"
                                                 onclick="return confirm('Are you sure?')"

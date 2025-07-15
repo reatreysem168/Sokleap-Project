@@ -1,6 +1,7 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    include 'db_connect.php';  // This will create $pdo
+    include 'db_connect.php';  // Create $pdo
+
     $full_name  = $_POST['full_name'] ?? '';
     $gender     = $_POST['gender'] ?? '';
     $dob        = $_POST['dob'] ?? null;
@@ -23,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $sql = "INSERT INTO staff (full_name, gender, dob, department, salary, email, phone, address, profile_pic)
             VALUES (:full_name, :gender, :dob, :department, :salary, :email, :phone, :address, :profile_pic)";
-
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         ':full_name'   => $full_name,
@@ -51,15 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-100 font-sans">
-<div class="flex min-h-screen">
-    <div class="">
+<div class="">
+    <!-- Sidebar -->
+    <div class="fixed top-0 left-0 h-full w-64 bg-white shadow">
         <?php include 'sidebar.php'; ?>
     </div>
-    <div class="ml-64 p-8 flex-1">
+
+    <!-- Main Content -->
+    <div class="ml-64 flex-1 p-8">
         <div class="bg-white rounded-xl shadow-md p-8">
             <h4 class="mb-6 text-xl font-semibold text-blue-600 text-center">បញ្ចូលទិន្នន័យបុគ្គលិក</h4>
-            <form action="save_staff.php" method="POST" enctype="multipart/form-data" class="bg-white rounded-xl shadow-md p-8">
-                <!-- Row 1: Full Name | Gender | DOB -->
+            <form action="doctor_info.php" method="POST" enctype="multipart/form-data">
                 <div class="grid grid-cols-12 gap-4 mb-4">
                     <div class="col-span-12 md:col-span-6">
                         <label for="full_name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
@@ -83,7 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
 
-                <!-- Row 2: Department | Salary -->
                 <div class="grid grid-cols-12 gap-4 mb-4">
                     <div class="col-span-12 md:col-span-6">
                         <label for="department" class="block text-sm font-medium text-gray-700 mb-1">Department</label>
@@ -97,7 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
 
-                <!-- Row 3: Email | Phone -->
                 <div class="grid grid-cols-12 gap-4 mb-4">
                     <div class="col-span-12 md:col-span-6">
                         <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
@@ -111,21 +111,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
 
-                <!-- Address -->
                 <div class="mb-4">
                     <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Home Address</label>
                     <textarea id="address" name="address" rows="2"
                               class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring focus:ring-blue-300"></textarea>
                 </div>
 
-                <!-- Profile Picture -->
                 <div class="mb-6">
                     <label for="profile_pic" class="block text-sm font-medium text-gray-700 mb-1">Profile Picture</label>
                     <input type="file" id="profile_pic" name="profile_pic" accept="image/*"
                            class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring focus:ring-blue-300">
                 </div>
 
-                <!-- Buttons -->
                 <div class="flex justify-end gap-3">
                     <button type="submit"
                             class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:ring focus:ring-blue-400">
@@ -137,14 +134,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </button>
                 </div>
             </form>
-            <div >
+
+            <div class="mt-8">
                 <?php include "include/staff_list.php"; ?>
             </div>
         </div>
-
     </div>
-
 </div>
-
 </body>
 </html>
