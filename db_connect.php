@@ -1,10 +1,10 @@
 <?php
 // Database configuration
 $host = 'localhost';
-$port = '3307';              // <-- custom MySQL port
+$port = '3306';              // <-- custom MySQL port
 $db   = 'clinic_db';
 $user = 'root';
-$pass = '1234';
+$pass = '';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
