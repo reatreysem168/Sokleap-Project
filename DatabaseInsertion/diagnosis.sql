@@ -101,3 +101,4 @@ INSERT INTO diagnoses (name) VALUES
                                  ('Down Syndrome'),
                                  ('Scoliosis');
 select * from diagnoses;
+drop table diagnoses;

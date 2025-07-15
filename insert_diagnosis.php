@@ -1,26 +1,12 @@
 <?php
-include '../db_connect.php';
-
-// Generate CSRF token if not exists
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+include 'db_connect.php';  // Make sure this sets $pdo and session_start()
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Verify CSRF token
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        $_SESSION['message'] = [
-            'type' => 'error',
-            'text' => 'Invalid CSRF token'
-        ];
-        header("Location: ".$_SERVER['PHP_SELF']);
-        exit();
-    }
-
     if (isset($_POST['search'])) {
         // Search functionality
         $search_term = '%' . $_POST['search_term'] . '%';
+
         $stmt = $pdo->prepare("SELECT * FROM diagnoses WHERE name LIKE :search ORDER BY name");
         $stmt->execute([':search' => $search_term]);
         $diagnoses = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,17 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt = $pdo->prepare("UPDATE diagnoses SET name = :name WHERE id = :id");
             $stmt->execute([':name' => $name, ':id' => $id]);
 
-            $_SESSION['message'] = [
-                'type' => 'success',
-                'text' => 'Diagnosis updated successfully!'
-            ];
-            header("Location: ".$_SERVER['PHP_SELF']);
+            $_SESSION['message'] = ['type' => 'success', 'text' => 'Diagnosis updated successfully!'];
+            header("Location: " . $_SERVER['PHP_SELF']);
             exit();
         } catch (PDOException $e) {
-            $_SESSION['message'] = [
-                'type' => 'error',
-                'text' => 'Error updating diagnosis: '.$e->getMessage()
-            ];
+            $_SESSION['message'] = ['type' => 'error', 'text' => 'Error updating diagnosis: ' . $e->getMessage()];
         }
     }
     else {
@@ -55,17 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt = $pdo->prepare("INSERT INTO diagnoses (name) VALUES (:name)");
             $stmt->execute([':name' => $name]);
 
-            $_SESSION['message'] = [
-                'type' => 'success',
-                'text' => 'Diagnosis added successfully!'
-            ];
-            header("Location: ".$_SERVER['PHP_SELF']);
+            $_SESSION['message'] = ['type' => 'success', 'text' => 'Diagnosis added successfully!'];
+            header("Location: " . $_SERVER['PHP_SELF']);
             exit();
         } catch (PDOException $e) {
-            $_SESSION['message'] = [
-                'type' => 'error',
-                'text' => 'Error adding diagnosis: '.$e->getMessage()
-            ];
+            $_SESSION['message'] = ['type' => 'error', 'text' => 'Error adding diagnosis: ' . $e->getMessage()];
         }
     }
 }
@@ -78,21 +52,15 @@ if (isset($_GET['delete'])) {
         $stmt = $pdo->prepare("DELETE FROM diagnoses WHERE id = :id");
         $stmt->execute([':id' => $id]);
 
-        $_SESSION['message'] = [
-            'type' => 'success',
-            'text' => 'Diagnosis deleted successfully!'
-        ];
-        header("Location: ".$_SERVER['PHP_SELF']);
+        $_SESSION['message'] = ['type' => 'success', 'text' => 'Diagnosis deleted successfully!'];
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     } catch (PDOException $e) {
-        $_SESSION['message'] = [
-            'type' => 'error',
-            'text' => 'Error deleting diagnosis: '.$e->getMessage()
-        ];
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'Error deleting diagnosis: ' . $e->getMessage()];
     }
 }
 
-// Check if we're editing a diagnosis
+// Edit check
 $editing = false;
 $current_diagnosis = null;
 if (isset($_GET['edit'])) {
@@ -103,11 +71,13 @@ if (isset($_GET['edit'])) {
     $editing = $current_diagnosis !== false;
 }
 
-// Default: load all diagnoses
+// Load all diagnoses if not searching
+// Default: load all diagnoses descending by id
 if (!isset($diagnoses)) {
-    $stmt = $pdo->query("SELECT * FROM diagnoses ORDER BY name");
+    $stmt = $pdo->query("SELECT * FROM diagnoses ORDER BY id DESC");
     $diagnoses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -128,11 +98,10 @@ if (!isset($diagnoses)) {
 </head>
 <body class="bg-gray-100 font-sans">
 <div class="flex min-h-screen">
-    <div class="">
-        <?php include '../sidebar.php'; ?>
+    <div>
+        <?php include 'sidebar.php'; ?>
     </div>
     <div class="ml-64 p-8 flex-1">
-        <!-- Message Display -->
         <?php if (isset($_SESSION['message'])): ?>
             <div class="mb-4 p-4 rounded-md <?= $_SESSION['message']['type'] === 'error' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' ?>">
                 <?= htmlspecialchars($_SESSION['message']['text']) ?>
@@ -147,14 +116,11 @@ if (!isset($diagnoses)) {
 
             <!-- Add/Edit Diagnosis Form -->
             <form method="POST" class="space-y-6 mb-8">
-                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
-
                 <?php if ($editing): ?>
                     <input type="hidden" name="id" value="<?= $current_diagnosis['id'] ?>">
                     <input type="hidden" name="update" value="1">
                 <?php endif; ?>
 
-                <!-- Diagnosis Name -->
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Diagnosis Name</label>
                     <input type="text" id="name" name="name" required
@@ -163,7 +129,6 @@ if (!isset($diagnoses)) {
                            value="<?= htmlspecialchars($editing ? $current_diagnosis['name'] : '') ?>">
                 </div>
 
-                <!-- Buttons -->
                 <div class="flex justify-end gap-3">
                     <button type="submit"
                             class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:ring focus:ring-blue-400">
@@ -186,7 +151,6 @@ if (!isset($diagnoses)) {
             <!-- Search Form -->
             <div class="mb-6">
                 <form method="POST" class="flex gap-2">
-                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                     <input type="text" name="search_term"
                            class="flex-1 px-3 py-2 border rounded-md shadow-sm focus:ring focus:ring-blue-300"
                            placeholder="Search diagnoses..."
@@ -204,7 +168,7 @@ if (!isset($diagnoses)) {
                 </form>
             </div>
 
-            <!-- Diagnosis List -->
+            <!-- Diagnosis List with Scroll -->
             <div class="mt-8">
                 <h5 class="text-lg font-semibold text-gray-700 mb-4">
                     <?= isset($_POST['search']) ? 'Search Results' : 'Existing Diagnoses' ?>
@@ -212,13 +176,13 @@ if (!isset($diagnoses)) {
                 </h5>
 
                 <?php if (count($diagnoses) > 0): ?>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-auto max-h-96 border border-gray-200 rounded-md">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Diagnosis Name</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Diagnosis Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -232,13 +196,11 @@ if (!isset($diagnoses)) {
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <a href="?edit=<?= $diagnosis['id'] ?>"
-                                           class="text-blue-600 hover:text-blue-900 mr-3"
-                                           title="Edit">
+                                           class="text-blue-600 hover:text-blue-900 mr-3" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="#" onclick="confirmDelete(<?= $diagnosis['id'] ?>)"
-                                           class="text-red-600 hover:text-red-900"
-                                           title="Delete">
+                                           class="text-red-600 hover:text-red-900" title="Delete">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
@@ -247,8 +209,6 @@ if (!isset($diagnoses)) {
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Pagination would go here -->
                 <?php else: ?>
                     <div class="text-center py-8 text-gray-500">
                         <i class="fas fa-clipboard-list text-4xl mb-2"></i>
@@ -263,4 +223,5 @@ if (!isset($diagnoses)) {
     </div>
 </div>
 </body>
+
 </html>

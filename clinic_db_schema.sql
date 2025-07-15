@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS diagnoses (
                                          id INT AUTO_INCREMENT PRIMARY KEY,
                                          name VARCHAR(255) NOT NULL UNIQUE
 );
-
+select * from diagnoses;
 # table staff
 CREATE TABLE IF NOT EXISTS staff (
                                      id INT AUTO_INCREMENT PRIMARY KEY,

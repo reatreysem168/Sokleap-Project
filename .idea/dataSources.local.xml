@@ -11,15 +11,12 @@
       <user-name>root</user-name>
       <schema-mapping>
         <introspection-scope>
-          <node kind="schema" qname="@" />
+          <node kind="schema">
+            <name qname="@" />
+            <name qname="clinic_db" />
+          </node>
         </introspection-scope>
       </schema-mapping>
-      <load-sources>user_and_system_sources</load-sources>
-    </data-source>
-    <data-source name="@localhost [2]" uuid="02b14195-1d91-4781-aabe-40389d05abcd">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL_AURORA" />
-      <secret-storage>master_key</secret-storage>
-      <schema-mapping />
       <load-sources>user_and_system_sources</load-sources>
     </data-source>
   </component>
