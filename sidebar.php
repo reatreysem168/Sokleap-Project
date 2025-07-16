@@ -47,7 +47,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         'text' => 'Input Doctor Info'
                     ],
                     [
-                        'url' => 'Medicine_info/medicine_info.php',
+                        'url' => 'medicine.php',
                         'icon' => 'fa-pills',
                         'text' => 'Medicine Input'
                     ],

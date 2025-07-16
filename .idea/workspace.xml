@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dfe6edb6-689b-47a2-9d24-931ef07fc3d6" name="Changes" comment="" />
+    <list default="true" id="dfe6edb6-689b-47a2-9d24-931ef07fc3d6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/medicine.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/medicine/save_medicine.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Medicine_info/medicine_info.php" beforeDir="false" afterPath="$PROJECT_DIR$/medicine/medicine_info.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clinic_db_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/clinic_db_schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/sidebar.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,6 +38,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/laragon/www/Sokleap-Project",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -133,6 +144,7 @@
       <workItem from="1752552388462" duration="117000" />
       <workItem from="1752552523042" duration="44000" />
       <workItem from="1752552581631" duration="6048000" />
+      <workItem from="1752647574359" duration="6463000" />
     </task>
     <servers />
   </component>

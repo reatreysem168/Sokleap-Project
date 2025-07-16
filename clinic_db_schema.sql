@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS medicine_prices (
   name VARCHAR(255) NOT NULL UNIQUE,
   price INT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 -- Example data for medicine_prices
 INSERT INTO medicine_prices (name, price) VALUES
