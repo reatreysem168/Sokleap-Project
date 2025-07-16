@@ -287,7 +287,10 @@ $formattedDate = date('d F Y');
             <img src="pic/yeang.jpg" alt="Signature" class="h-20 w-auto ml-auto my-2" />
             <p>Seng Chhunyeang</p>
         </div>
-
+<!--        <section>-->
+<!--            <p><strong>ថ្ងៃណាត់៖</strong> ..........................................</p>-->
+<!--            <p>សូមយកវេជ្ជបញ្ជាមកជាមួយ ពេលមកពិនិត្យលើកក្រោយ។</p>-->
+<!--        </section>-->
         <div class="fixed bottom-0 text-sm text-gray-600 text-center w-full px-4 mt-12 print:mt-24">
             <p>អាស័យដ្ឋានៈ ផ្ទះលេខ ៤៧ដេ ផ្លូវលេខ៣៦០, សង្កាត់ បឹងកេងកង១, ខណ្ឌ បឹងកេងកង, ភ្នំពេញ</p>
             <p>ទូរស័ព្ទលេខ៖ ៨៥៥-០២៣ ៦៦៦៦ ២៣៧ / ០១១-៣៩ ៨៨៨៨</p>

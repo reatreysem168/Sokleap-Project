@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS prescriptions (
   doctor_name VARCHAR(255),
   date DATE NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+) ;
+select * from prescriptions;
 -- Table: medicines
 CREATE TABLE IF NOT EXISTS medicines (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS medicines (
   instructions TEXT DEFAULT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (prescription_id) REFERENCES prescriptions(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 -- Table: invoices
 CREATE TABLE IF NOT EXISTS invoices (
@@ -39,8 +39,7 @@ CREATE TABLE IF NOT EXISTS invoices (
   total_amount INT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (prescription_id) REFERENCES prescriptions(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+);
 -- Table: medicine_prices
 CREATE TABLE IF NOT EXISTS medicine_prices (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,19 +56,20 @@ INSERT INTO medicine_prices (name, price) VALUES
 ('Vitamin C', 1500),
 ('ABC', 1500);
 select * from medicine_prices;
-CREATE TABLE patients (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  patient_name VARCHAR(100) NOT NULL,
-  gender VARCHAR(10),
-  age INT,
-  dob DATE,
-  contact VARCHAR(20),
-  email VARCHAR(100),
-  address TEXT,
-  blood_group VARCHAR(10),
-  medical_history TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+# CREATE TABLE patients (
+#   id INT AUTO_INCREMENT PRIMARY KEY,
+#   patient_name VARCHAR(100) NOT NULL,
+#   gender VARCHAR(10),
+#   age INT,
+#   dob DATE,
+#   contact VARCHAR(20),
+#   email VARCHAR(100),
+#   address TEXT,
+#   blood_group VARCHAR(10),
+#   medical_history TEXT,
+#   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+# );
+select * from patients;
 select * from prescriptions;
 ALTER TABLE medicines ADD COLUMN unit_price DECIMAL(10,2) NOT NULL DEFAULT 0;
 CREATE TABLE IF NOT EXISTS diagnoses (

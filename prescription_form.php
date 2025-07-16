@@ -1,7 +1,23 @@
 <?php
 require 'db_connect.php';
 $medicineList = [];
+$doctorList = [];
+$cashierList = [];
 
+try {
+    $stmt = $pdo->prepare("SELECT full_name FROM staff WHERE department != 'Doctor' ORDER BY full_name ASC");
+    $stmt->execute();
+    $cashierList = $stmt->fetchAll(PDO::FETCH_COLUMN);
+} catch (PDOException $e) {
+    echo "Database error: " . $e->getMessage();
+}
+try {
+    $stmt = $pdo->prepare("SELECT full_name FROM staff WHERE department = 'Doctor' ORDER BY full_name ASC");
+    $stmt->execute();
+    $doctorList = $stmt->fetchAll(PDO::FETCH_COLUMN);
+} catch (PDOException $e) {
+    echo "Database error: " . $e->getMessage();
+}
 try {
     $stmt = $pdo->query("SELECT name FROM medicine_prices ORDER BY name ASC");
     $medicineList = $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -25,13 +41,8 @@ try {
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <style>
-        @font-face {
-            font-family: 'Khmer OS Muol Light';
-            src: url('fonts/KhmerOSmuollight.ttf') format('truetype');
-        }
-
         .khmer-font {
-            font-family: 'Khmer OS Muol Light', 'Khmer OS Muol', 'Khmer', sans-serif;
+            font-family: 'Khmer OS Battambang', 'Khmer OS Battambang', 'Khmer', sans-serif;
         }
     </style>
 </head>
@@ -43,24 +54,22 @@ try {
 
     <!-- Main Content -->
     <div class="ml-64 p-8 flex-1 p-6 overflow-y-auto bg-gray-50 khmer-font">
-        <div class="text-right mb-4">
-            <button type="button" onclick="sendToPrint()"
-                    class="px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
-                បោះពុម្ភលទ្ធផល
-            </button>
-        </div>
-
         <div class=" bg-white p-7 shadow rounded-lg" id="app">
-            <!-- Header -->
-            <header class="flex justify-between items-center mb-6">
-                <img src="pic/left.png" alt="Left Logo" class="h-14"/>
-                <div class="text-center text-2xl font-bold">
-                    មន្ទីរពហុព្យាបាល សុខ លាភ មេត្រី<br/>
-                    SOK LEAP METREY POLYCLINIC
-                </div>
-                <img src="pic/right.png" alt="Right Logo" class="h-14"/>
+<!--             Header-->
+<!--            <header class="flex justify-between items-center mb-6">-->
+<!--                <img src="pic/left.png" alt="Left Logo" class="h-14"/>-->
+<!--                <div class="text-center text-2xl font-bold">-->
+<!--                    មន្ទីរពហុព្យាបាល សុខ លាភ មេត្រី<br/>-->
+<!--                    SOK LEAP METREY POLYCLINIC-->
+<!--                </div>-->
+<!--                <img src="pic/right.png" alt="Right Logo" class="h-14"/>-->
             </header>
-
+            <div class="text-right mb-4">
+                <button type="button" onclick="sendToPrint()"
+                        class="px-6 py-2 bg-blue-700 text-white rounded hover:bg-yellow-500">
+                    បោះពុម្ភលទ្ធផល
+                </button>
+            </div>
             <!-- Patient Form -->
             <form id="patientForm" class="mb-6">
                 <h2 class="text-xl font-semibold mb-4">ព័ត៌មានអ្នកជំងឺ</h2>
@@ -103,7 +112,8 @@ try {
                         <label class="font-medium">ឈ្មោះថ្នាំ:</label>
                         <input list="medicineList" type="text" id="medicineName" name="medicineName"
                                required class="p-2 border rounded w-full"/>
-                        <datalist id="medicineList" class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
+                        <datalist id="medicineList"
+                                  class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
                             <?php foreach ($medicineList as $medicine): ?>
                                 <option
                                         value="<?= htmlspecialchars($medicine) ?>"
@@ -114,19 +124,19 @@ try {
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <input type="text" id="morning" placeholder="ព្រឹក" class="p-2 border rounded w-full"/>
+                            <input value="1" type="text" id="morning" placeholder="ព្រឹក" class="p-2 border rounded w-full"/>
                         </div>
                         <div>
                             <input type="text" id="afternoon" placeholder="រសៀល" class="p-2 border rounded w-full"/>
                         </div>
                         <div>
-                            <input type="text" id="evening" placeholder="ល្ងាច" class="p-2 border rounded w-full"/>
+                            <input value="1" type="text" id="evening" placeholder="ល្ងាច" class="p-2 border rounded w-full"/>
                         </div>
                         <div>
                             <input type="text" id="night" placeholder="យប់" class="p-2 border rounded w-full"/>
                         </div>
                         <div>
-                            <input type="number" id="quantity" placeholder="ចំនួន" min="1" required
+                            <input value="10" type="number" id="quantity" placeholder="ចំនួន" min="1" required
                                    class="p-2 border rounded w-full"/>
                         </div>
                         <div>
@@ -169,34 +179,25 @@ try {
 
             <!-- Footer Form Info -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-                <section>
-                    <p><strong>ថ្ងៃណាត់៖</strong> ..........................................</p>
-                    <p>សូមយកវេជ្ជបញ្ជាមកជាមួយ ពេលមកពិនិត្យលើកក្រោយ។</p>
-                </section>
 
-                <div class="text-right">
-                    <input type="date" id="date" class="p-2 border rounded" required/>
+
+                <div class="">
+                    <input type="date" id="date" class="p-2 border rounded" required value="<?= date('Y-m-d') ?>" />
+
                     <p class="mt-2">គ្រូពេទ្យព្យាបាល</p>
                     <select id="doctorName" class="p-2 border rounded w-full" required>
-                        <option value="">ជ្រើសរើស Dr</option>
-                        <option value="Dr. SEAN SOKVISAL">Dr. SEAN SOKVISAL</option>
-                        <option value="Dr. CHHUN PHEAKDEY">Dr. CHHUN PHEAKDEY</option>
-                        <option value="Dr. SOTH SEREYPISETH">Dr. SOTH SEREYPISETH</option>
+                        <?php foreach ($doctorList as $doctor): ?>
+                            <option value="<?= htmlspecialchars($doctor) ?>"><?= htmlspecialchars($doctor) ?></option>
+                        <?php endforeach; ?>
                     </select>
-
                     <p class="mt-4">អ្នកទទួលប្រាក់</p>
-                    <select id="recieve" class="p-2 border rounded w-full" required>
-                        <option value="">ជ្រើសរើសអ្នកទទួលប្រាក់</option>
-                        <option value="Sem Reatrey">Sem Reatrey</option>
-                        <option value="Seng Chhunyeang">Seng Chhunyeang</option>
+                    <label for="recieve"></label><select id="recieve" class="p-2 border rounded w-full" required>
+                        <?php foreach ($cashierList as $staff): ?>
+                            <option value="<?= htmlspecialchars($staff) ?>"><?= htmlspecialchars($staff) ?></option>
+                        <?php endforeach; ?>
                     </select>
-                </div>
-            </div>
 
-            <!-- Footer -->
-            <div class="footer mt-10 text-center text-sm text-gray-600">
-                <p>អាសយដ្ឋាន: ផ្ទះលេខ ៤៧ដេ ផ្លូវលេខ ៣៦០, សង្កាត់ បឹងកេងកង១, ខណ្ឌ ចំការមន, ភ្នំពេញ</p>
-                <p>ទូរសព្ទ: ៨៥៥-០២៣ ៦៦៦៦ ២៣៧ / ០១១ ៣៩ ៨៨៨៨</p>
+                </div>
             </div>
         </div>
     </div>
