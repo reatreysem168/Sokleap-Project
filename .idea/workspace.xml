@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dfe6edb6-689b-47a2-9d24-931ef07fc3d6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/js/prescription_print.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clinic_db_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/clinic_db_schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prescription_form.php" beforeDir="false" afterPath="$PROJECT_DIR$/prescription_form.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/print_prescription.php" beforeDir="false" afterPath="$PROJECT_DIR$/print_prescription.php" afterDir="false" />
-    </list>
+    <list default="true" id="dfe6edb6-689b-47a2-9d24-931ef07fc3d6" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -147,7 +141,7 @@
       <workItem from="1752552388462" duration="117000" />
       <workItem from="1752552523042" duration="44000" />
       <workItem from="1752552581631" duration="6048000" />
-      <workItem from="1752647574359" duration="10753000" />
+      <workItem from="1752647574359" duration="11097000" />
     </task>
     <servers />
   </component>
