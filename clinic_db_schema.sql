@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS invoices (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (prescription_id) REFERENCES prescriptions(id) ON DELETE CASCADE
 );
+select * from invoices;
 -- Table: medicine_prices
 CREATE TABLE IF NOT EXISTS medicine_prices (
   id INT AUTO_INCREMENT PRIMARY KEY,

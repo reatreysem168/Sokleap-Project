@@ -27,7 +27,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <?php
                 $menu_items = [
                     [
-                        'url' => 'Manage Page/index.php',
+                        'url' => 'manage_prescription.php',
                         'icon' => 'fa-cogs',
                         'text' => 'Admin Page'
                     ],

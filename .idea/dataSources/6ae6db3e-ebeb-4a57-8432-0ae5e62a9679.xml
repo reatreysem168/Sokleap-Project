@@ -1001,7 +1001,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     <schema id="288" parent="1" name="clinic_db">
       <AutoIntrospectionLevel>3</AutoIntrospectionLevel>
       <LastIntrospectionLevel>3</LastIntrospectionLevel>
-      <LastIntrospectionLocalTimestamp>2025-07-15.04:19:11</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-07-19.08:48:34</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="289" parent="1" name="information_schema">
@@ -1013,410 +1013,413 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     <schema id="291" parent="1" name="performance_schema">
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
-    <schema id="292" parent="1" name="sys">
+    <schema id="292" parent="1" name="sokleapclinic">
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
-    <user id="293" parent="1" name="mysql.infoschema">
+    <schema id="293" parent="1" name="sys">
+      <CollationName>utf8mb4_0900_ai_ci</CollationName>
+    </schema>
+    <user id="294" parent="1" name="mysql.infoschema">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="294" parent="1" name="mysql.session">
+    <user id="295" parent="1" name="mysql.session">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="295" parent="1" name="mysql.sys">
+    <user id="296" parent="1" name="mysql.sys">
       <CanLogin>0</CanLogin>
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <user id="296" parent="1" name="root">
+    <user id="297" parent="1" name="root">
       <Host>localhost</Host>
       <Plugin>caching_sha2_password</Plugin>
     </user>
-    <table id="297" parent="288" name="diagnoses">
+    <table id="298" parent="288" name="diagnoses">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="298" parent="288" name="invoices">
+    <table id="299" parent="288" name="invoices">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="299" parent="288" name="medicine_prices">
+    <table id="300" parent="288" name="medicine_prices">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="300" parent="288" name="medicines">
+    <table id="301" parent="288" name="medicines">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="301" parent="288" name="patients">
+    <table id="302" parent="288" name="patients">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="302" parent="288" name="prescriptions">
+    <table id="303" parent="288" name="prescriptions">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="303" parent="288" name="staff">
+    <table id="304" parent="288" name="staff">
       <DetailsLevel>3</DetailsLevel>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <column id="304" parent="297" name="id">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="305" parent="298" name="id">
+      <AutoIncrement>9</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="305" parent="297" name="name">
+    <column id="306" parent="298" name="name">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <index id="306" parent="297" name="PRIMARY">
+    <index id="307" parent="298" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="307" parent="297" name="name">
+    <index id="308" parent="298" name="name">
       <ColNames>name</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="308" parent="297" name="PRIMARY">
+    <key id="309" parent="298" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="309" parent="297" name="name">
+    <key id="310" parent="298" name="name">
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
-    <column id="310" parent="298" name="id">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="311" parent="299" name="id">
+      <AutoIncrement>7</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="311" parent="298" name="prescription_id">
+    <column id="312" parent="299" name="prescription_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="312" parent="298" name="receive_by">
+    <column id="313" parent="299" name="receive_by">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="313" parent="298" name="total_amount">
+    <column id="314" parent="299" name="total_amount">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="314" parent="298" name="created_at">
+    <column id="315" parent="299" name="created_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>5</Position>
       <StoredType>timestamp|0s</StoredType>
     </column>
-    <foreign-key id="315" parent="298" name="invoices_ibfk_1">
+    <foreign-key id="316" parent="299" name="invoices_ibfk_1">
       <ColNames>prescription_id</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>prescriptions</RefTableName>
     </foreign-key>
-    <index id="316" parent="298" name="PRIMARY">
+    <index id="317" parent="299" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="317" parent="298" name="prescription_id">
+    <index id="318" parent="299" name="prescription_id">
       <ColNames>prescription_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="318" parent="298" name="PRIMARY">
+    <key id="319" parent="299" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="319" parent="299" name="id">
-      <AutoIncrement>6</AutoIncrement>
+    <column id="320" parent="300" name="id">
+      <AutoIncrement>16</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="320" parent="299" name="name">
+    <column id="321" parent="300" name="name">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="321" parent="299" name="price">
+    <column id="322" parent="300" name="price">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="322" parent="299" name="created_at">
+    <column id="323" parent="300" name="created_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>4</Position>
       <StoredType>timestamp|0s</StoredType>
     </column>
-    <index id="323" parent="299" name="PRIMARY">
+    <index id="324" parent="300" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="324" parent="299" name="name">
+    <index id="325" parent="300" name="name">
       <ColNames>name</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="325" parent="299" name="PRIMARY">
+    <key id="326" parent="300" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="326" parent="299" name="name">
+    <key id="327" parent="300" name="name">
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
-    <column id="327" parent="300" name="id">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="328" parent="301" name="id">
+      <AutoIncrement>8</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="328" parent="300" name="prescription_id">
+    <column id="329" parent="301" name="prescription_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="329" parent="300" name="name">
+    <column id="330" parent="301" name="name">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="330" parent="300" name="morning">
+    <column id="331" parent="301" name="morning">
       <Position>4</Position>
       <StoredType>varchar(50)|0s</StoredType>
     </column>
-    <column id="331" parent="300" name="afternoon">
+    <column id="332" parent="301" name="afternoon">
       <Position>5</Position>
       <StoredType>varchar(50)|0s</StoredType>
     </column>
-    <column id="332" parent="300" name="evening">
+    <column id="333" parent="301" name="evening">
       <Position>6</Position>
       <StoredType>varchar(50)|0s</StoredType>
     </column>
-    <column id="333" parent="300" name="night">
+    <column id="334" parent="301" name="night">
       <Position>7</Position>
       <StoredType>varchar(50)|0s</StoredType>
     </column>
-    <column id="334" parent="300" name="quantity">
+    <column id="335" parent="301" name="quantity">
       <DefaultExpression>0</DefaultExpression>
       <Position>8</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="335" parent="300" name="instructions">
+    <column id="336" parent="301" name="instructions">
       <Position>9</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="336" parent="300" name="created_at">
+    <column id="337" parent="301" name="created_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>10</Position>
       <StoredType>timestamp|0s</StoredType>
     </column>
-    <column id="337" parent="300" name="unit_price">
+    <column id="338" parent="301" name="unit_price">
       <DefaultExpression>0.00</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>11</Position>
       <StoredType>decimal(10,2 digit)|0s</StoredType>
     </column>
-    <foreign-key id="338" parent="300" name="medicines_ibfk_1">
+    <foreign-key id="339" parent="301" name="medicines_ibfk_1">
       <ColNames>prescription_id</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>prescriptions</RefTableName>
     </foreign-key>
-    <index id="339" parent="300" name="PRIMARY">
+    <index id="340" parent="301" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="340" parent="300" name="prescription_id">
+    <index id="341" parent="301" name="prescription_id">
       <ColNames>prescription_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="341" parent="300" name="PRIMARY">
+    <key id="342" parent="301" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="342" parent="301" name="id">
+    <column id="343" parent="302" name="id">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="343" parent="301" name="patient_name">
+    <column id="344" parent="302" name="patient_name">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(100)|0s</StoredType>
     </column>
-    <column id="344" parent="301" name="gender">
+    <column id="345" parent="302" name="gender">
       <Position>3</Position>
       <StoredType>varchar(10)|0s</StoredType>
     </column>
-    <column id="345" parent="301" name="age">
+    <column id="346" parent="302" name="age">
       <Position>4</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="346" parent="301" name="dob">
+    <column id="347" parent="302" name="dob">
       <Position>5</Position>
       <StoredType>date|0s</StoredType>
     </column>
-    <column id="347" parent="301" name="contact">
+    <column id="348" parent="302" name="contact">
       <Position>6</Position>
       <StoredType>varchar(20)|0s</StoredType>
     </column>
-    <column id="348" parent="301" name="email">
+    <column id="349" parent="302" name="email">
       <Position>7</Position>
       <StoredType>varchar(100)|0s</StoredType>
     </column>
-    <column id="349" parent="301" name="address">
+    <column id="350" parent="302" name="address">
       <Position>8</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="350" parent="301" name="blood_group">
+    <column id="351" parent="302" name="blood_group">
       <Position>9</Position>
       <StoredType>varchar(10)|0s</StoredType>
     </column>
-    <column id="351" parent="301" name="medical_history">
+    <column id="352" parent="302" name="medical_history">
       <Position>10</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="352" parent="301" name="created_at">
+    <column id="353" parent="302" name="created_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>11</Position>
       <StoredType>timestamp|0s</StoredType>
     </column>
-    <index id="353" parent="301" name="PRIMARY">
+    <index id="354" parent="302" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="354" parent="301" name="PRIMARY">
+    <key id="355" parent="302" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="355" parent="302" name="id">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="356" parent="303" name="id">
+      <AutoIncrement>12</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="356" parent="302" name="patient_name">
+    <column id="357" parent="303" name="patient_name">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="357" parent="302" name="age">
+    <column id="358" parent="303" name="age">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="358" parent="302" name="gender">
+    <column id="359" parent="303" name="gender">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>varchar(20)|0s</StoredType>
     </column>
-    <column id="359" parent="302" name="diagnosis">
+    <column id="360" parent="303" name="diagnosis">
       <Position>5</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="360" parent="302" name="doctor_name">
+    <column id="361" parent="303" name="doctor_name">
       <Position>6</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="361" parent="302" name="date">
+    <column id="362" parent="303" name="date">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StoredType>date|0s</StoredType>
     </column>
-    <column id="362" parent="302" name="created_at">
+    <column id="363" parent="303" name="created_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>8</Position>
       <StoredType>timestamp|0s</StoredType>
     </column>
-    <index id="363" parent="302" name="PRIMARY">
+    <index id="364" parent="303" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="364" parent="302" name="PRIMARY">
+    <key id="365" parent="303" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="365" parent="303" name="id">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="366" parent="304" name="id">
+      <AutoIncrement>6</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="366" parent="303" name="full_name">
+    <column id="367" parent="304" name="full_name">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="367" parent="303" name="gender">
+    <column id="368" parent="304" name="gender">
       <Position>3</Position>
       <StoredType>varchar(10)|0s</StoredType>
     </column>
-    <column id="368" parent="303" name="dob">
+    <column id="369" parent="304" name="dob">
       <Position>4</Position>
       <StoredType>date|0s</StoredType>
     </column>
-    <column id="369" parent="303" name="department">
+    <column id="370" parent="304" name="department">
       <Position>5</Position>
       <StoredType>varchar(100)|0s</StoredType>
     </column>
-    <column id="370" parent="303" name="salary">
+    <column id="371" parent="304" name="salary">
       <Position>6</Position>
       <StoredType>decimal(10,2 digit)|0s</StoredType>
     </column>
-    <column id="371" parent="303" name="email">
+    <column id="372" parent="304" name="email">
       <Position>7</Position>
       <StoredType>varchar(100)|0s</StoredType>
     </column>
-    <column id="372" parent="303" name="phone">
+    <column id="373" parent="304" name="phone">
       <Position>8</Position>
       <StoredType>varchar(20)|0s</StoredType>
     </column>
-    <column id="373" parent="303" name="address">
+    <column id="374" parent="304" name="address">
       <Position>9</Position>
       <StoredType>text|0s</StoredType>
     </column>
-    <column id="374" parent="303" name="profile_pic">
+    <column id="375" parent="304" name="profile_pic">
       <Position>10</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="375" parent="303" name="created_at">
+    <column id="376" parent="304" name="created_at">
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <Position>11</Position>
       <StoredType>timestamp|0s</StoredType>
     </column>
-    <index id="376" parent="303" name="PRIMARY">
+    <index id="377" parent="304" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="377" parent="303" name="PRIMARY">
+    <key id="378" parent="304" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
