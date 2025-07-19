@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':profile_pic' => $profile_pic
     ]);
 
-    echo "<script>alert('Staff added successfully!'); window.location.href='input_staff_form.php';</script>";
+    echo "<script>alert('Staff added successfully!'); window.location.href='doctor_info.php';</script>";
     exit;
 }
 ?>

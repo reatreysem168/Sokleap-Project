@@ -64,12 +64,13 @@ try {
 <!--                </div>-->
 <!--                <img src="pic/right.png" alt="Right Logo" class="h-14"/>-->
             </header>
-            <div class="text-right mb-4">
-                <button type="button" onclick="sendToPrint()"
-                        class="px-6 py-2 bg-blue-700 text-white rounded hover:bg-yellow-500">
+            <div class="">
+                <button  type="button" onclick="sendToPrint()"
+                        class="px-6 py-2 bg-blue-700 text-white rounded hover:bg-yellow-500 shadow-lg fixed right-3">
                     បោះពុម្ភលទ្ធផល
                 </button>
             </div>
+
             <!-- Patient Form -->
             <form id="patientForm" class="mb-6">
                 <h2 class="text-xl font-semibold mb-4">ព័ត៌មានអ្នកជំងឺ</h2>
