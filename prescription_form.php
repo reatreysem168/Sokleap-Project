@@ -3,7 +3,6 @@ require 'db_connect.php';
 $medicineList = [];
 $doctorList = [];
 $cashierList = [];
-
 try {
     $stmt = $pdo->prepare("SELECT full_name FROM staff WHERE department != 'Doctor' ORDER BY full_name ASC");
     $stmt->execute();
@@ -173,18 +172,15 @@ try {
                             <th class="border px-2 py-1">សកម្មភាព</th>
                         </tr>
                         </thead>
-                        <tbody id="prescriptionTableBody"></tbody>
+                        <tbody class="" id="prescriptionTableBody"></tbody>
                     </table>
                 </div>
             </div>
 
             <!-- Footer Form Info -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-
-
                 <div class="">
                     <input type="date" id="date" class="p-2 border rounded" required value="<?= date('Y-m-d') ?>" />
-
                     <p class="mt-2">គ្រូពេទ្យព្យាបាល</p>
                     <select id="doctorName" class="p-2 border rounded w-full" required>
                         <?php foreach ($doctorList as $doctor): ?>
@@ -221,7 +217,7 @@ try {
             const medicineList = document.getElementById('medicineList');
             const diagnosisList = document.getElementById('diagnosis-list');
             const patientNames = document.getElementById('patientNames');
-            data.medicines.forEach(med => medicineList.innerHTML += `<option value="${med}">`);
+            data.medicines.forEach(med => medicineList.innerHTML += `<option class="text-left" value="${med}">`);
             data.diagnoses.forEach(diag => diagnosisList.innerHTML += `<option value="${diag}">`);
             data.patients.forEach(p => patientNames.innerHTML += `<option value="${p}">`);
         });
@@ -276,7 +272,7 @@ try {
             prescriptionTableBody.innerHTML += `
                 <tr>
                     <td class="border px-2 py-1">${index + 1}</td>
-                    <td class="border px-2 py-1">${med.name}</td>
+                    <td class=" text-left border px-2 py-1">${med.name}</td>
                     <td class="border px-2 py-1">${med.morning}</td>
                     <td class="border px-2 py-1">${med.afternoon}</td>
                     <td class="border px-2 py-1">${med.evening}</td>
